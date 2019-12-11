@@ -1,0 +1,647 @@
+﻿@model PENCOMSERVICE.Models.BaseModel.EmployeesRecapture
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>EmployeesRecapture</h4>
+    <hr />
+
+    <p class="text-danger mb-2"><strong>@ViewBag.ECRmessage</strong></p>
+    <hr>
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Pin)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Pin)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Firstname)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Firstname)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Othernames)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Othernames)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.MaidenName)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.MaidenName)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.MaritalStatusCode)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.MaritalStatusCode)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NationalityCode)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NationalityCode)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.StateOfOrigin)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.StateOfOrigin)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.LgaCode)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.LgaCode)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PlaceOfBirth)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PlaceOfBirth)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Bvn)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Bvn)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Ssn)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Ssn)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PermanentAddressLocation)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PermanentAddressLocation)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PermanentAddress)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PermanentAddress)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PermanentAddress1)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PermanentAddress1)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PermCity)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PermCity)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PermLga)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PermLga)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PermState)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PermState)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PermCountry)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PermCountry)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PermZip)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PermZip)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.PermBox)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.PermBox)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Email1)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Email1)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.MobilePhone)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.MobilePhone)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.MobilePhone1)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.MobilePhone1)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.CorrespondenceAdds)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.CorrespondenceAdds)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.CorrespondenceAdds1)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.CorrespondenceAdds1)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.State)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerType)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerType)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerName)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerName)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerRcno)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerRcno)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerLocation)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerLocation)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerAddress)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerAddress)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerAddress1)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerAddress1)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerCity)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerCity)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerLga)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerLga)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerStatecode)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerStatecode)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerCountry)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerCountry)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerZip)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerZip)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerBox)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerBox)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerPhone)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerPhone)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployerBusiness)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployerBusiness)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.DateOfFirstApppoinment)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.DateOfFirstApppoinment)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.DateEmployed)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.DateEmployed)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.DateConfirmed)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.DateConfirmed)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.StateOfPosting)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.StateOfPosting)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.EmployeeId)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.EmployeeId)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokTitle)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokTitle)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokGender)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokGender)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokName)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokName)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokOthername)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokOthername)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokSurname)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokSurname)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokMaidenname)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokMaidenname)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokDob)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokDob)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokRelationship)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokRelationship)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokLocation)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokLocation)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokAddress)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokAddress)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokAddress1)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokAddress1)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokCity)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokCity)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokLga)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokLga)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokStatecode)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokStatecode)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokCountry)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokCountry)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokZip)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokZip)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokBox)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokBox)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokMobilePhone)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokMobilePhone)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokEmailaddress)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokEmailaddress)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Title)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Title)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Gender)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Gender)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Firstname)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Firstname)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Othername)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Othername)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Surname)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Surname)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Maidenname)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Maidenname)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.NokDob2)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.NokDob2)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Relationship)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Relationship)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Location)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Location)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Address)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Address)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Address1)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Address1)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2City)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2City)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Lga)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Lga)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Statecode)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Statecode)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Countrycode)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Countrycode)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Zip)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Zip)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.No2kBox)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.No2kBox)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Mobilephone)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Mobilephone)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Nok2Emailaddress)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nok2Emailaddress)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.BranchCode)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.BranchCode)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.ClientStatus)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.ClientStatus)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Userid)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Userid)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Checked)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Checked)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.CheckedBy)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.CheckedBy)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.CheckedDate)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.CheckedDate)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.Approved)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Approved)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.ApprovedBy)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.ApprovedBy)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.ApprovedDate)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.ApprovedDate)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.FormRefno)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.FormRefno)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.RsaStatus)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.RsaStatus)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.IsSubmitted)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.IsSubmitted)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.SubmitResponse)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.SubmitResponse)
+        </dd>
+        <dt class = "col-sm-4 text-truncate">
+            @Html.DisplayNameFor(model => model.SubmitCode)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.SubmitCode)
+        </dd>
+    </dl>
+
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Transid">Edit</a> |
+    @*<a asp-action="Index">Back to List</a>*@
+</div>
+

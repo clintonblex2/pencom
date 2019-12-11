@@ -1,0 +1,85 @@
+﻿@model PENCOMSERVICE.Models.ViewModel.LoadDataViewModel
+
+@*@{
+    ViewData["Title"] = "Submitted Pencom Data";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Use this page to view the details of the submitted pencom data.</p>*@
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/site.js">
+
+    </script>
+
+    <div class="loading">
+        Loading&#8230;
+    </div>
+    <div class="card">
+
+        <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Data acquired from ECR database</h3>
+
+        <h1>@ViewBag.LoadingData</h1>
+        <div class="card-body">
+            <h6 class="card-title text-center text-muted">Successfully fetched <strong>@Model.Count</strong> submitted user data from Pencom Database</h6>
+            <div id="table" class="table-editable">
+                <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+                <form asp-controller="Home" asp-action="SubmittedData" method="post">
+                    <table class="table table-bordered table-responsive-md table-striped text-center">
+                        @*@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+                    {*@
+                        <thead>
+                            <tr>
+                                <th class="text-center">Form Ref Number </th>
+                                <th class="text-center">FirstName </th>
+                                <th class="text-center">Surname </th>
+                                <th class="text-center">Other Names</th>
+                                <th class="text-center">Pencom PIN </th>
+                                <th class="text-center">Set PIN</th>
+                                <th class="text-center">More Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ECRDataModelList)
+                            {
+                                <tr>
+
+                                    <td class="pt-3-half" contenteditable="true">@item.FormRefno</td>
+                                    <td class="pt-3-half" contenteditable="true">@item.Firstname</td>
+                                    <td class="pt-3-half" contenteditable="true">@item.Surname</td>
+                                    <td class="pt-3-half">@item.Othernames</td>
+                                    <td class="pt-3-half text-success" contenteditable="false"><input type="hidden" asp-for="@(item.Pin)" />@item.Pin</td>
+                                    <td class="pt-3-half text-success" contenteditable="false"><input type="hidden" asp-for="@(item.SubmitCode)" />@item.SubmitCode</td>
+                                    <td class="pt-3-half text-danger" contenteditable="false">
+                                        <a class="btn btn-info btn-rounded btn-sm my-0" href=".././EmployeeEdit/details?pin=@item.Pin">View Details</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        @* }*@
+                    </table>
+
+                </form>
+
+            </div>
+        </div>
+
+        
+
+        @{
+            int count = 0;
+        }
+
+        @if (Model.ECRDataModelList == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+
+
+        }
+
+    </div>
+
+}

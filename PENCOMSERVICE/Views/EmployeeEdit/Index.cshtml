@@ -1,0 +1,653 @@
+﻿@model IEnumerable<PENCOMSERVICE.Models.BaseModel.EmployeesRecapture>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Othernames)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaidenName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaritalStatusCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NationalityCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateOfOrigin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LgaCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaceOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bvn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ssn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermanentAddressLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermanentAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermanentAddress1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermLga)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermCountry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermZip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PermBox)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobilePhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobilePhone1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CorrespondenceAdds)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CorrespondenceAdds1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerRcno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerAddress1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerLga)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerStatecode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerCountry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerZip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerBox)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployerBusiness)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfFirstApppoinment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateEmployed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateConfirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StateOfPosting)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokGender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokOthername)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokSurname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokMaidenname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokDob)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokRelationship)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokLocation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokAddress1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokLga)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokStatecode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokCountry)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokZip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokBox)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokMobilePhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokEmailaddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Firstname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Othername)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Surname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Maidenname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NokDob2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Relationship)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Address1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Lga)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Statecode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Countrycode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Zip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.No2kBox)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Mobilephone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nok2Emailaddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BranchCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClientStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Userid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Checked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Approved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprovedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ApprovedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FormRefno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RsaStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsSubmitted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmitResponse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmitCode)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Othernames)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaidenName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaritalStatusCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NationalityCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StateOfOrigin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LgaCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlaceOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bvn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ssn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermanentAddressLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermanentAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermanentAddress1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermLga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermCountry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermZip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PermBox)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobilePhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobilePhone1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CorrespondenceAdds)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CorrespondenceAdds1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerRcno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerAddress1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerLga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerStatecode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerCountry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerZip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerBox)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployerBusiness)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfFirstApppoinment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateEmployed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateConfirmed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StateOfPosting)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokGender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokOthername)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokSurname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokMaidenname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokDob)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokRelationship)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokLocation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokAddress1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokLga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokStatecode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokCountry)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokZip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokBox)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokMobilePhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokEmailaddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Othername)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Maidenname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NokDob2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Relationship)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Address1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Lga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Statecode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Countrycode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Zip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.No2kBox)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Mobilephone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nok2Emailaddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BranchCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Userid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Checked)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CheckedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Approved)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApprovedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApprovedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FormRefno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RsaStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSubmitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmitResponse)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmitCode)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Transid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Transid">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Transid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
