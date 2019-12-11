@@ -591,16 +591,6 @@ namespace PENCOMSERVICE.Models.Service
             catch (WebException ex)
             {
                 var errorResponse = new PencomResponse { responsecode = "500", responsemessage = $" An error from Pencom Server says: {ex.Message} " };
-
-
-                using (StreamReader r = new StreamReader(
-                    ex.Response.GetResponseStream()))
-                {
-
-                    string responseContent = r.ReadToEnd();
-
-                    //jResult = JsonConvert.DeserializeObject<PencomResponse>(responseContent); //this may not work as response might also be xml
-                }
                 return ex.Message;
             }
 
