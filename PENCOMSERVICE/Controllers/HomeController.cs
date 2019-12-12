@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using PENCOMSERVICE.Extensions.Alerts;
 using PENCOMSERVICE.Models;
 using PENCOMSERVICE.Models.BaseModel;
 using PENCOMSERVICE.Models.Interface;
@@ -51,7 +52,7 @@ namespace PENCOMSERVICE.Controllers
             loadDataModel.IsLoading = IsLoading;
             loadDataModel.Count = count;
             
-            return View(loadDataModel);
+            return View(loadDataModel).WithSuccess($"Successfully acquired {count} users data from ECR database", "");
         }
 
         //[HttpPost]
@@ -59,14 +60,13 @@ namespace PENCOMSERVICE.Controllers
         {
             ximoData = await _pencomService.GetPaginatedDataResult();
             var result = new PencomResponse();
+
             foreach (var data in ximoData)
             {
-
                 result = await _pencomService.SubmitData(data);
-                
             }
             // Create SubmitData ViewModel and pass all the needed fields to it
-            return View(result);
+            return RedirectToAction(nameof(SubmittedData)).WithSuccess($"Successfully submitted {ximoData.Count()} users data to ECR database for Recapture Processing","");
         }
 
         public IActionResult Privacy()
@@ -83,6 +83,18 @@ namespace PENCOMSERVICE.Controllers
             loadDataModel.IsLoading = IsLoading;
             loadDataModel.Count = ximoData.Count();
             
+            return View(loadDataModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AcceptedData()
+        {
+            ximoData = await _pencomService.GetAcceptedData();
+
+            loadDataModel.ECRDataModelList = ximoData;
+            loadDataModel.IsLoading = IsLoading;
+            loadDataModel.Count = ximoData.Count();
+
             return View(loadDataModel);
         }
 

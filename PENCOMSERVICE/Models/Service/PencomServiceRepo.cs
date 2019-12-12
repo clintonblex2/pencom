@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -21,7 +22,7 @@ namespace PENCOMSERVICE.Models.Service
         private PFAContext _pfaContext;
         private IMAGESContext _imagesContext;
         public bool IsLoading { get; set; } = true;
-
+        
         public PencomServiceRepo(IWebHostEnvironment env, PencomDbContext db, PFAContext pfaContext, IMAGESContext imagesContext)
         {
             _hostingEnvironment = env;
@@ -47,7 +48,7 @@ namespace PENCOMSERVICE.Models.Service
         {
             // return await _dbContext.ECRDataModel.ToListAsync();
             var resList = new List<ECRDataModel>();
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted == false).Take(500).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted == false).Take(60).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
 
             var res = new ECRDataModel();
 
@@ -55,78 +56,7 @@ namespace PENCOMSERVICE.Models.Service
             {
                 Debug.WriteLine(item.Firstname + " " + item.Pin);
                 var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == item.Pin).FirstOrDefaultAsync().ConfigureAwait(false);
-                if (imgs == null)
-                {
-                    res = new ECRDataModel
-                    {
-                        Bvn = item.Bvn,
-                        DateEmployed = item.DateEmployed,
-                        DateOfBirth = item.DateOfBirth,
-                        DateOfFirstApppoinment = item.DateOfFirstApppoinment,
-                        Email = item.Email,
-                        Pin = item.Pin,
-                        Title = item.Title,
-                        Surname = item.Surname,
-                        Firstname = item.Firstname,
-                        Othernames = item.Othernames,
-                        MaidenName = item.MaidenName,
-                        Gender = item.Gender,
-                        MaritalStatusCode = item.MaritalStatusCode,
-                        NationalityCode = item.NationalityCode,
-                        StateOfOrigin = item.StateOfOrigin,
-                        LgaCode = item.LgaCode,
-                        PlaceOfBirth = item.PlaceOfBirth,
-                        Ssn = item.Ssn,
-                        PermanentAddressLocation = item.PermanentAddressLocation,
-                        PermanentAddress = item.PermanentAddress,
-                        PermanentAddress1 = item.PermanentAddress1,
-                        PermCity = item.PermCity,
-                        PermLga = item.PermLga,
-                        PermState = item.PermState,
-                        PermCountry = item.PermCountry,
-                        PermZip = item.PermZip,
-                        PermBox = item.PermBox,
-                        MobilePhone = item.MobilePhone,
-                        State = item.State,
-                        EmployerType = item.EmployerType,
-                        EmployerRcno = item.EmployerRcno,
-                        EmployerLocation = item.EmployerLocation,
-                        EmployerAddress = item.EmployerAddress,
-                        EmployerAddress1 = item.EmployerAddress1,
-                        EmployerCity = item.EmployerCity,
-                        EmployerLga = item.EmployerLga,
-                        EmployerStatecode = item.EmployerStatecode,
-                        EmployerCountry = item.EmployerCountry,
-                        EmployerZip = item.EmployerZip,
-                        EmployerBox = item.EmployerBox,
-                        EmployerPhone = item.EmployerPhone,
-                        EmployerBusiness = item.EmployerBusiness,
-                        NokTitle = item.NokTitle,
-                        NokGender = item.NokGender,
-                        NokName = item.NokName,
-                        NokOthername = item.NokOthername,
-                        NokSurname = item.NokSurname,
-                        NokRelationship = item.NokRelationship,
-                        NokLocation = item.NokLocation,
-                        NokAddress = item.NokAddress,
-                        NokAddress1 = item.NokAddress1,
-                        NokCity = item.NokCity,
-                        NokLga = item.NokLga,
-                        NokStatecode = item.NokStatecode,
-                        NokCountry = item.NokCountry,
-                        NokZip = item.NokZip,
-                        NokBox = item.NokBox,
-                        NokMobilePhone = item.NokMobilePhone,
-                        NokEmailaddress = item.NokEmailaddress,
-                        FormRefno = item.FormRefno,
-                        RsaStatus = item.RsaStatus,
-                        IsSubmitted = false,
-                        SubmitResponse = "Could not find images for this record"
-                    };
-
-                    resList.Add(res);
-                }
-                else
+                if (imgs != null)
                 {
                     res = new ECRDataModel
                     {
@@ -198,6 +128,7 @@ namespace PENCOMSERVICE.Models.Service
 
                     resList.Add(res);
                 }
+               
             }
 
             return resList;
@@ -309,6 +240,8 @@ namespace PENCOMSERVICE.Models.Service
 
             var emp = await _pfaContext.EmployeesRecapture.Where(e => e.Pin.Equals(model.Pin)).FirstOrDefaultAsync();
 
+            
+
             try
             {
                 var response = webClient.UploadString(baseuri, payload);
@@ -331,12 +264,39 @@ namespace PENCOMSERVICE.Models.Service
                 //var xDoc = XDocument.Parse(xmlOutput);
                 //var setId = xDoc.Root.Element("setId");
                 //var setIdValue = setId.Value;
-                var setId = responseArr[1];
+                var setId = responseArr[1].ToString();
                 var responseMessage = responseArr[3];
                 emp.IsSubmitted = setId is null || setId == "" || string.IsNullOrEmpty(setId) ? emp.IsSubmitted = false : emp.IsSubmitted = true;
                 emp.SubmitResponse = responseMessage;
                
                 emp.SubmitCode = setId;
+
+                try
+                {
+                    string submissionStatus = "";
+                    if (setId is null || setId == "" || string.IsNullOrEmpty(setId))
+                    {
+                        return jResult;
+                    }
+                    if (setId != null || setId != "")
+                    {
+                        submissionStatus = await GetRequestStatus(setId);
+                        if (submissionStatus.ToUpper() == "ACCEPTED")
+                        {
+                            emp.SubmitResponse = submissionStatus;
+                            jResult.responsemessage = submissionStatus;
+                        }
+                        else
+                        {
+                            emp.SubmitResponse = submissionStatus;
+                        }
+                    }
+                   
+                }
+                catch (Exception ex)
+                {
+                    return new PencomResponse { responsecode = "", responsemessage = ex.Message };
+                }
 
                 _pfaContext.EmployeesRecapture.Update(emp);
                 await _pfaContext.SaveChangesAsync();
@@ -346,21 +306,13 @@ namespace PENCOMSERVICE.Models.Service
             catch (WebException ex)
             {
                 var errorResponse = new PencomResponse { responsecode = "500", responsemessage = $" An error from Pencom Server says: {ex.Message} " };
-                emp.IsSubmitted = false;
-                emp.SubmitResponse = errorResponse.responsemessage;
-                emp.SubmitCode = errorResponse.responsecode;
+                //emp.IsSubmitted = false;
+                //emp.SubmitResponse = errorResponse.responsemessage;
+                //emp.SubmitCode = errorResponse.responsecode;
 
                 //_pfaContext.EmployeesRecapture.Update(emp);
                 //await _pfaContext.SaveChangesAsync();
 
-                using (StreamReader r = new StreamReader(
-                    ex.Response.GetResponseStream()))
-                {
-
-                    string responseContent = r.ReadToEnd();
-
-                    //jResult = JsonConvert.DeserializeObject<PencomResponse>(responseContent); //this may not work as response might also be xml
-                }
                 return errorResponse;
             }
         }
@@ -371,17 +323,21 @@ namespace PENCOMSERVICE.Models.Service
             return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }
 
-        public async Task<List<ECRDataModel>> GetSubmittedData()
+        public async Task<List<ECRDataModel>> GetAcceptedData()
         {
             var resList = new List<ECRDataModel>();
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted).ToListAsync().ConfigureAwait(false);
+            var status = " PIN has already been recaptured;";
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && (String.Equals(pfa.SubmitResponse, status) || String.Equals(pfa.SubmitResponse, "Accepted"))).ToListAsync().ConfigureAwait(false);
+            
             var res = new ECRDataModel();
 
             foreach (var item in pfadata)
             {
+                
                 Debug.WriteLine(item.Firstname + " " + item.Pin);
                 var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == item.Pin).FirstOrDefaultAsync().ConfigureAwait(false);
-                if (imgs == null)
+
+                if (imgs != null)
                 {
                     res = new ECRDataModel
                     {
@@ -427,6 +383,7 @@ namespace PENCOMSERVICE.Models.Service
                         EmployerBox = item.EmployerBox,
                         EmployerPhone = item.EmployerPhone,
                         EmployerBusiness = item.EmployerBusiness,
+                        IsSubmitted = item.IsSubmitted,
                         NokTitle = item.NokTitle,
                         NokGender = item.NokGender,
                         NokName = item.NokName,
@@ -446,14 +403,40 @@ namespace PENCOMSERVICE.Models.Service
                         NokEmailaddress = item.NokEmailaddress,
                         FormRefno = item.FormRefno,
                         RsaStatus = item.RsaStatus,
-                        IsSubmitted = item.IsSubmitted,
+                        PictureImage = imgs.PictureImage,
+                        SignatureImage = imgs.SignatureImage,
                         SubmitResponse = item.SubmitResponse,
-                        SubmitCode = item.SubmitCode
+                        SubmitCode = item.SubmitCode,
+                        Thumbprint = imgs.Thumbprint
                     };
 
                     resList.Add(res);
                 }
-                else
+            }
+
+            return resList;
+        }
+
+        public async Task<List<ECRDataModel>> GetSubmittedData()
+        {
+            var resList = new List<ECRDataModel>();
+            var status = " PIN has already been recaptured;";
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && !String.Equals(pfa.SubmitResponse, status)).ToListAsync().ConfigureAwait(false);
+            var res = new ECRDataModel();
+
+            foreach (var item in pfadata)
+            {
+                //Seeding the data with Get Request Status Response
+                //var response = await GetRequestStatus(item.SubmitCode);
+
+                //item.SubmitResponse = response;
+                //_pfaContext.EmployeesRecapture.Update(item);
+                //await _pfaContext.SaveChangesAsync();
+
+                //Debug.WriteLine(item.Firstname + " " + item.Pin);
+                var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == item.Pin).FirstOrDefaultAsync().ConfigureAwait(false);
+                
+                if (imgs != null)
                 {
                     res = new ECRDataModel
                     {
@@ -548,14 +531,12 @@ namespace PENCOMSERVICE.Models.Service
 <soapenv:Body>
             <ws:getRequestStatus><UserId>" + username + "</UserId>" +
             "<Password>" + password + "</Password>" +
-            "<setId>" + setId + "</setId>" +
+            "<setId>" + setId + "</setId>" + 
             "</ws:getRequestStatus></soapenv:Body></soapenv:Envelope>";
 
             WebClient webClient = new WebClient();
             var jResult = new PencomResponse();
             var xmlOutput = "";
-
-
 
             try
             {
@@ -569,7 +550,7 @@ namespace PENCOMSERVICE.Models.Service
                     xmlOutput = node.InnerText;
                 }
 
-                var responseXML = xmlOutput.Replace("\\n", "_");
+                var responseXML = Regex.Replace(xmlOutput, @"\t|\n|\r","");
                 responseXML = responseXML.Replace("<RequestStatusResult>", "_");
                 responseXML = responseXML.Replace("</RequestStatusResult>", "");
                 responseXML = responseXML.Replace("<responseCode>", "_");
@@ -594,7 +575,7 @@ namespace PENCOMSERVICE.Models.Service
                 return ex.Message;
             }
 
-            return "";
+            // return "";
         }
     }
 }

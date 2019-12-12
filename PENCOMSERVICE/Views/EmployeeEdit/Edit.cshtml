@@ -8,6 +8,15 @@
 
 <h4>EmployeesRecapture</h4>
 <hr />
+@if (@ViewBag.ECRmessage == "Accepted")
+{
+    <p class="text-success mb-2"><strong>@ViewBag.ECRmessage</strong></p>
+}
+else
+{
+    <p class="text-danger mb-2"><strong>@ViewBag.ECRmessage</strong></p>
+}
+<hr/>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">

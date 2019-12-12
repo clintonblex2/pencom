@@ -22,10 +22,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" style="margin-right:5px" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" style="margin-left:10px" asp-area="" asp-controller="Home" asp-action="SubmittedData">Submitted Data</a>
+                            <a class="nav-link text-dark" style="margin-left:0px;margin-right:5px" asp-area="" asp-controller="Home" asp-action="SubmittedData">Submitted Data</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" style="margin-left:0px;margin-right:10px" asp-area="" asp-controller="Home" asp-action="AcceptedData">Accepted Data</a>
                         </li>
                     </ul>
                 </div>
@@ -33,7 +36,9 @@
         </nav>
     </header>
     <div class="container">
+        
         <main role="main" class="pb-3">
+            @Html.Partial("_StatusMessages")
             @RenderBody()
         </main>
     </div>

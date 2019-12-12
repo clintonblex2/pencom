@@ -1,0 +1,47 @@
+﻿@{
+    var type = (string)TempData["_alert.type"];
+    var title = (string)TempData["_alert.title"];
+    var body = (string)TempData["alert.body"];
+}
+@if (!string.IsNullOrEmpty(type))
+{
+    if (type.Equals("success"))
+    {
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@title</strong> @body
+        </div>
+    }
+
+    else if (type.Equals("danger"))
+    {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@title</strong> @body
+        </div>
+    }
+
+    else if (type.Equals("info"))
+    {
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@title</strong> @body
+        </div>
+    }
+    else if (type.Equals("warning"))
+    {
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@title</strong> @body
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-dark alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@title</strong> @body
+        </div>
+    }
+
+}
+

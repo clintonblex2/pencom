@@ -12,5 +12,14 @@ namespace PENCOMSERVICE.Models.BaseModel
         public string responsemessage { get; set; }
 
         public string setId { get; set; }
+
+        public int Counter { get; set; } = 0;
+
+        public List<PensioneerPin> PensioneerPins { get; set; }
+
+        public class PensioneerPin
+        {
+            public string PIN { get; set; }
+        }
     }
 }

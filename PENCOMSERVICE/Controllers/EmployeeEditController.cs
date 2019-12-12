@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PENCOMSERVICE.Extensions.Alerts;
 using PENCOMSERVICE.Models.BaseModel;
 using PENCOMSERVICE.Models.Interface;
 
@@ -14,11 +15,13 @@ namespace PENCOMSERVICE.Controllers
     {
         private readonly PFAContext _context;
         private IPencomService _pencomService;
+        private IMAGESContext _imagesContext;
 
-        public EmployeeEditController(PFAContext context, IPencomService pencomService)
+        public EmployeeEditController(PFAContext context, IPencomService pencomService, IMAGESContext imagesContext)
         {
             _context = context;
             _pencomService = pencomService;
+            _imagesContext = imagesContext;
         }
 
         // GET: EmployeeEdit
@@ -45,9 +48,9 @@ namespace PENCOMSERVICE.Controllers
             var setpin = employeesRecapture.SubmitCode;
 
             //soap call
-            var response = await _pencomService.GetRequestStatus(employeesRecapture.SubmitCode);
+            //var response = await _pencomService.GetRequestStatus(employeesRecapture.SubmitCode);
 
-            ViewData["ECRmessage"] = response;
+            ViewData["ECRmessage"] = employeesRecapture.SubmitResponse;
 
             return View(employeesRecapture);
         }
@@ -87,6 +90,11 @@ namespace PENCOMSERVICE.Controllers
             {
                 return NotFound();
             }
+
+            //var response = await _pencomService.GetRequestStatus(employeesRecapture.SubmitCode);
+
+            ViewData["ECRmessage"] = employeesRecapture.SubmitResponse;
+
             return View(employeesRecapture);
         }
 
@@ -104,10 +112,85 @@ namespace PENCOMSERVICE.Controllers
 
             if (ModelState.IsValid)
             {
+                _context.Update(employeesRecapture);
+                await _context.SaveChangesAsync();
+                var res = new ECRDataModel();
                 try
                 {
-                    _context.Update(employeesRecapture);
-                    await _context.SaveChangesAsync();
+                    var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == employeesRecapture.Pin).FirstOrDefaultAsync().ConfigureAwait(false);
+                    if (imgs != null)
+                    {
+                        res = new ECRDataModel
+                        {
+                            Bvn = employeesRecapture.Bvn,
+                            DateEmployed = employeesRecapture.DateEmployed,
+                            DateOfBirth = employeesRecapture.DateOfBirth,
+                            DateOfFirstApppoinment = employeesRecapture.DateOfFirstApppoinment,
+                            Email = employeesRecapture.Email,
+                            Pin = employeesRecapture.Pin,
+                            Title = employeesRecapture.Title,
+                            Surname = employeesRecapture.Surname,
+                            Firstname = employeesRecapture.Firstname,
+                            Othernames = employeesRecapture.Othernames,
+                            MaidenName = employeesRecapture.MaidenName,
+                            Gender = employeesRecapture.Gender,
+                            MaritalStatusCode = employeesRecapture.MaritalStatusCode,
+                            NationalityCode = employeesRecapture.NationalityCode,
+                            StateOfOrigin = employeesRecapture.StateOfOrigin,
+                            LgaCode = employeesRecapture.LgaCode,
+                            PlaceOfBirth = employeesRecapture.PlaceOfBirth,
+                            Ssn = employeesRecapture.Ssn,
+                            PermanentAddressLocation = employeesRecapture.PermanentAddressLocation,
+                            PermanentAddress = employeesRecapture.PermanentAddress,
+                            PermanentAddress1 = employeesRecapture.PermanentAddress1,
+                            PermCity = employeesRecapture.PermCity,
+                            PermLga = employeesRecapture.PermLga,
+                            PermState = employeesRecapture.PermState,
+                            PermCountry = employeesRecapture.PermCountry,
+                            PermZip = employeesRecapture.PermZip,
+                            PermBox = employeesRecapture.PermBox,
+                            MobilePhone = employeesRecapture.MobilePhone,
+                            State = employeesRecapture.State,
+                            EmployerType = employeesRecapture.EmployerType,
+                            EmployerRcno = employeesRecapture.EmployerRcno,
+                            EmployerLocation = employeesRecapture.EmployerLocation,
+                            EmployerAddress = employeesRecapture.EmployerAddress,
+                            EmployerAddress1 = employeesRecapture.EmployerAddress1,
+                            EmployerCity = employeesRecapture.EmployerCity,
+                            EmployerLga = employeesRecapture.EmployerLga,
+                            EmployerStatecode = employeesRecapture.EmployerStatecode,
+                            EmployerCountry = employeesRecapture.EmployerCountry,
+                            EmployerZip = employeesRecapture.EmployerZip,
+                            EmployerBox = employeesRecapture.EmployerBox,
+                            EmployerPhone = employeesRecapture.EmployerPhone,
+                            EmployerBusiness = employeesRecapture.EmployerBusiness,
+                            NokTitle = employeesRecapture.NokTitle,
+                            NokGender = employeesRecapture.NokGender,
+                            NokName = employeesRecapture.NokName,
+                            NokOthername = employeesRecapture.NokOthername,
+                            NokSurname = employeesRecapture.NokSurname,
+                            NokRelationship = employeesRecapture.NokRelationship,
+                            NokLocation = employeesRecapture.NokLocation,
+                            NokAddress = employeesRecapture.NokAddress,
+                            NokAddress1 = employeesRecapture.NokAddress1,
+                            NokCity = employeesRecapture.NokCity,
+                            NokLga = employeesRecapture.NokLga,
+                            NokStatecode = employeesRecapture.NokStatecode,
+                            NokCountry = employeesRecapture.NokCountry,
+                            NokZip = employeesRecapture.NokZip,
+                            NokBox = employeesRecapture.NokBox,
+                            NokMobilePhone = employeesRecapture.NokMobilePhone,
+                            NokEmailaddress = employeesRecapture.NokEmailaddress,
+                            FormRefno = employeesRecapture.FormRefno,
+                            RsaStatus = employeesRecapture.RsaStatus,
+                            PictureImage = imgs.PictureImage,
+                            SignatureImage = imgs.SignatureImage,
+                            Thumbprint = imgs.Thumbprint
+                        };
+                    }
+                    await _pencomService.SubmitData(res);
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,7 +203,7 @@ namespace PENCOMSERVICE.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { pin = employeesRecapture.Pin}).WithSuccess($"{employeesRecapture.Pin} successfully updated","");
             }
             return View(employeesRecapture);
         }
