@@ -27,7 +27,7 @@
                 <form asp-controller="Home" asp-action="SubmittedData" method="post">
                     <table class="table table-bordered table-responsive-md table-striped text-center">
                         @*@using (Html.BeginForm("Index", "Home", FormMethod.Get))
-                    {*@
+                {*@
                         <thead>
                             <tr>
                                 <th class="text-center">Form Ref No.</th>
@@ -42,24 +42,60 @@
                         <tbody>
                             @foreach (var item in Model.ECRDataModelList)
                             {
-                            <tr>
+                                <tr>
 
-                                <td class="pt-3-half" contenteditable="false">@item.FormRefno</td>
-                                <td class="pt-3-half" contenteditable="false">@item.Firstname</td>
-                                <td class="pt-3-half" contenteditable="false">@item.Surname</td>
-                                <td class="pt-3-half">@item.Othernames</td>
-                                <td class="pt-3-half text-danger" contenteditable="false"><input type="hidden" asp-for="@(item.Pin)" />@item.Pin</td>
-                                <td class="pt-3-half text-success" contenteditable="false"><input type="hidden" asp-for="@(item.SubmitCode)" />@item.SubmitCode</td>
-                                <td class="pt-3-half" contenteditable="false">
-                                    <a class="btn btn-info btn-rounded btn-sm my-0" href=".././EmployeeEdit/details?pin=@item.Pin">View Details</a>
-                                </td>
-                            </tr>
+                                    <td class="pt-3-half" contenteditable="false">@item.FormRefno</td>
+                                    <td class="pt-3-half" contenteditable="false">@item.Firstname</td>
+                                    <td class="pt-3-half" contenteditable="false">@item.Surname</td>
+                                    <td class="pt-3-half">@item.Othernames</td>
+                                    <td class="pt-3-half text-danger" contenteditable="false"><input type="hidden" asp-for="@(item.Pin)" />@item.Pin</td>
+                                    <td class="pt-3-half text-success" contenteditable="false"><input type="hidden" asp-for="@(item.SubmitCode)" />@item.SubmitCode</td>
+                                    <td class="pt-3-half" contenteditable="false">
+                                        <a class="btn btn-info btn-rounded btn-sm my-0" href=".././EmployeeEdit/details?pin=@item.Pin">View Details</a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                         @* }*@
                     </table>
 
                 </form>
+                <!-- Pagination
+    ============================================= -->
+                <ul class="pagination justify-content-center mt-4 mb-0">
+                    <li class="page-item">
+                        <a asp-page="" asp-route-page="1" class="page-link">First</a>
+                    </li>
+                    @if (ViewBag.CurrentPage - 1 <= 0)
+                    {
+                        <li class="page-item">
+                            <a asp-page="" asp-route-page="@(ViewBag.CurrentPage)" class="page-link">Previous</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a asp-page="" asp-route-page="@(ViewBag.CurrentPage - 1)" class="page-link">Previous</a>
+                        </li>
+                    }
+
+                    @if (ViewBag.CurrentPage + 1 > ViewBag.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a asp-page="" asp-route-page="@(ViewBag.CurrentPage)" class="page-link">Next</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item">
+                            <a asp-page="" asp-route-page="@(ViewBag.CurrentPage + 1)" class="page-link">Next</a>
+                        </li>
+                    }
+                    <li class="page-item">
+                        <a asp-page="" asp-route-page="@(ViewBag.TotalPages)" class="page-link">Last</a>
+                    </li>
+                </ul>
+                <!-- Paginations end -->
 
             </div>
         </div>

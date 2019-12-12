@@ -75,11 +75,13 @@ namespace PENCOMSERVICE.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SubmittedData()
+        public async Task<IActionResult> SubmittedData(int page = 1, int pageSize = 100)
         {
             ximoData = await _pencomService.GetSubmittedData();
+            ViewData["TotalPages"] = (int)Math.Ceiling(decimal.Divide(ximoData.Count, pageSize));
+            ViewData["CurrentPage"] = page;
 
-            loadDataModel.ECRDataModelList = ximoData;
+            loadDataModel.ECRDataModelList = ximoData.Skip((page - 1) * pageSize).Take(pageSize);
             loadDataModel.IsLoading = IsLoading;
             loadDataModel.Count = ximoData.Count();
             
@@ -87,11 +89,13 @@ namespace PENCOMSERVICE.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AcceptedData()
+        public async Task<IActionResult> AcceptedData(int page = 1, int pageSize = 100)
         {
             ximoData = await _pencomService.GetAcceptedData();
+            ViewData["TotalPages"] = (int)Math.Ceiling(decimal.Divide(ximoData.Count, pageSize));
+            ViewData["CurrentPage"] = page;
 
-            loadDataModel.ECRDataModelList = ximoData;
+            loadDataModel.ECRDataModelList = ximoData.Skip((page - 1) * pageSize).Take(pageSize);
             loadDataModel.IsLoading = IsLoading;
             loadDataModel.Count = ximoData.Count();
 
