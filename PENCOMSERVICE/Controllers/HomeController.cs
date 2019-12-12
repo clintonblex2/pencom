@@ -66,7 +66,7 @@ namespace PENCOMSERVICE.Controllers
                 result = await _pencomService.SubmitData(data);
             }
             // Create SubmitData ViewModel and pass all the needed fields to it
-            return RedirectToAction(nameof(SubmittedData)).WithSuccess($"Successfully submitted {ximoData.Count()} users data to ECR database for Recapture Processing","");
+            return RedirectToAction(nameof(SubmittedData)).WithSuccess($"Successfully submitted {result.Counter} users data to ECR database for Recapture Processing","");
         }
 
         public IActionResult Privacy()

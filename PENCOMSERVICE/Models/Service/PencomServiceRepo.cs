@@ -22,7 +22,7 @@ namespace PENCOMSERVICE.Models.Service
         private PFAContext _pfaContext;
         private IMAGESContext _imagesContext;
         public bool IsLoading { get; set; } = true;
-        
+
         public PencomServiceRepo(IWebHostEnvironment env, PencomDbContext db, PFAContext pfaContext, IMAGESContext imagesContext)
         {
             _hostingEnvironment = env;
@@ -48,7 +48,7 @@ namespace PENCOMSERVICE.Models.Service
         {
             // return await _dbContext.ECRDataModel.ToListAsync();
             var resList = new List<ECRDataModel>();
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted == false).Take(60).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted == false).Take(400).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
 
             var res = new ECRDataModel();
 
@@ -128,7 +128,7 @@ namespace PENCOMSERVICE.Models.Service
 
                     resList.Add(res);
                 }
-               
+
             }
 
             return resList;
@@ -240,8 +240,6 @@ namespace PENCOMSERVICE.Models.Service
 
             var emp = await _pfaContext.EmployeesRecapture.Where(e => e.Pin.Equals(model.Pin)).FirstOrDefaultAsync();
 
-            
-
             try
             {
                 var response = webClient.UploadString(baseuri, payload);
@@ -268,7 +266,7 @@ namespace PENCOMSERVICE.Models.Service
                 var responseMessage = responseArr[3];
                 emp.IsSubmitted = setId is null || setId == "" || string.IsNullOrEmpty(setId) ? emp.IsSubmitted = false : emp.IsSubmitted = true;
                 emp.SubmitResponse = responseMessage;
-               
+
                 emp.SubmitCode = setId;
 
                 try
@@ -276,28 +274,27 @@ namespace PENCOMSERVICE.Models.Service
                     string submissionStatus = "";
                     if (setId is null || setId == "" || string.IsNullOrEmpty(setId))
                     {
+                        jResult.Counter = jResult.Counter == 0 ? 0 : jResult.Counter--;
                         return jResult;
                     }
-                    if (setId != null || setId != "")
+
+                    submissionStatus = await GetRequestStatus(setId);
+                    if (submissionStatus.ToUpper() == "ACCEPTED")
                     {
-                        submissionStatus = await GetRequestStatus(setId);
-                        if (submissionStatus.ToUpper() == "ACCEPTED")
-                        {
-                            emp.SubmitResponse = submissionStatus;
-                            jResult.responsemessage = submissionStatus;
-                        }
-                        else
-                        {
-                            emp.SubmitResponse = submissionStatus;
-                        }
+                        emp.SubmitResponse = submissionStatus;
+                        jResult.responsemessage = submissionStatus;
                     }
-                   
+                    else
+                    {
+                        emp.SubmitResponse = submissionStatus;
+                    }
                 }
                 catch (Exception ex)
                 {
                     return new PencomResponse { responsecode = "", responsemessage = ex.Message };
                 }
 
+                jResult.Counter++;
                 _pfaContext.EmployeesRecapture.Update(emp);
                 await _pfaContext.SaveChangesAsync();
 
@@ -328,12 +325,12 @@ namespace PENCOMSERVICE.Models.Service
             var resList = new List<ECRDataModel>();
             var status = " PIN has already been recaptured;";
             var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && (String.Equals(pfa.SubmitResponse, status) || String.Equals(pfa.SubmitResponse, "Accepted"))).ToListAsync().ConfigureAwait(false);
-            
+
             var res = new ECRDataModel();
 
             foreach (var item in pfadata)
             {
-                
+
                 Debug.WriteLine(item.Firstname + " " + item.Pin);
                 var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == item.Pin).FirstOrDefaultAsync().ConfigureAwait(false);
 
@@ -435,7 +432,7 @@ namespace PENCOMSERVICE.Models.Service
 
                 //Debug.WriteLine(item.Firstname + " " + item.Pin);
                 var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == item.Pin).FirstOrDefaultAsync().ConfigureAwait(false);
-                
+
                 if (imgs != null)
                 {
                     res = new ECRDataModel
@@ -531,7 +528,7 @@ namespace PENCOMSERVICE.Models.Service
 <soapenv:Body>
             <ws:getRequestStatus><UserId>" + username + "</UserId>" +
             "<Password>" + password + "</Password>" +
-            "<setId>" + setId + "</setId>" + 
+            "<setId>" + setId + "</setId>" +
             "</ws:getRequestStatus></soapenv:Body></soapenv:Envelope>";
 
             WebClient webClient = new WebClient();
@@ -550,7 +547,7 @@ namespace PENCOMSERVICE.Models.Service
                     xmlOutput = node.InnerText;
                 }
 
-                var responseXML = Regex.Replace(xmlOutput, @"\t|\n|\r","");
+                var responseXML = Regex.Replace(xmlOutput, @"\t|\n|\r", "");
                 responseXML = responseXML.Replace("<RequestStatusResult>", "_");
                 responseXML = responseXML.Replace("</RequestStatusResult>", "");
                 responseXML = responseXML.Replace("<responseCode>", "_");
