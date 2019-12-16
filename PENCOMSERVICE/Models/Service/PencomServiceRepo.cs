@@ -59,9 +59,13 @@ namespace PENCOMSERVICE.Models.Service
 
             var resList = new List<ECRDataModel>();
 <<<<<<< HEAD
+<<<<<<< HEAD
             var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && !pfa.IsSubmitted).Take(400).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
 =======
             var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted == false).Take(600).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
+=======
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted == false).Take(200).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
+>>>>>>> f79c2e9... merge
 
             var res = new ECRDataModel();
 
@@ -248,6 +252,14 @@ namespace PENCOMSERVICE.Models.Service
             var dob = model.DateOfBirth.GetValueOrDefault().ToString("yyyy-MM-dd");
 
             if (model.SignatureImage is null)
+            {
+                return new PencomResponse { responsecode = "", responsemessage = "no image found" };
+            }
+            if (model.Thumbprint is null)
+            {
+                return new PencomResponse { responsecode = "", responsemessage = "no image found" };
+            }
+            if (model.PictureImage is null)
             {
                 return new PencomResponse { responsecode = "", responsemessage = "no image found" };
             }
