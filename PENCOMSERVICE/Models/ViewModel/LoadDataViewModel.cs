@@ -12,6 +12,5 @@ namespace PENCOMSERVICE.Models.ViewModel
         public string Message { get; set; }
         public IEnumerable<ECRDataModel> ECRDataModelList { get; set; }
         public int Count { get; set; }
-        
     }
 }

@@ -24,7 +24,7 @@ namespace PENCOMSERVICE.Controllers
         private IPencomService _pencomService;
         LoadDataViewModel loadDataModel = new LoadDataViewModel();
         PaginationModel paginationModel = new PaginationModel();
-        public List<ECRDataModel> ximoData = new List<ECRDataModel>();
+        public List<ECRDataModel> ecrData = new List<ECRDataModel>();
 
         public HomeController(ILogger<HomeController> logger, PencomDbContext context, PFAContext pfaContext, IMAGESContext imagesContext, IPencomService iPencomService)
         {
@@ -45,23 +45,37 @@ namespace PENCOMSERVICE.Controllers
             
             paginationModel = new PaginationModel();
 
-            ximoData = await _pencomService.GetPaginatedDataResult();
-            int count = await _pencomService.GetCount();
+            ecrData = await _pencomService.GetPaginatedDataResult();
+            int count = ecrData.Count();
 
-            loadDataModel.ECRDataModelList = ximoData;
+            loadDataModel.ECRDataModelList = ecrData;
             loadDataModel.IsLoading = IsLoading;
             loadDataModel.Count = count;
             
             return View(loadDataModel).WithSuccess($"Successfully acquired {count} users data from ECR database", "");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Search(string searchString)
+        {
+            paginationModel = new PaginationModel();
+            ecrData = await _pencomService.GetSearchResult(searchString);
+            int count = ecrData.Count();
+
+            loadDataModel.ECRDataModelList = ecrData;
+            loadDataModel.IsLoading = IsLoading;
+            loadDataModel.Count = count;
+
+            return View(loadDataModel).WithSuccess($"Search Results for {searchString} : {count} {(count > 1 ? "Results" : "Result")}", "");
+        }
+
         //[HttpPost]
         public async Task<IActionResult> Submit(List<ECRDataModel> eCRDataModels)
         {
-            ximoData = await _pencomService.GetPaginatedDataResult();
+            ecrData = await _pencomService.GetPaginatedDataResult();
             var result = new PencomResponse();
 
-            foreach (var data in ximoData)
+            foreach (var data in ecrData)
             {
                 result = await _pencomService.SubmitData(data);
             }
@@ -75,29 +89,31 @@ namespace PENCOMSERVICE.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SubmittedData(int page = 1, int pageSize = 100)
+        public async Task<IActionResult> SubmittedData(int page = 1, int pageSize = 50)
         {
-            ximoData = await _pencomService.GetSubmittedData();
-            ViewData["TotalPages"] = (int)Math.Ceiling(decimal.Divide(ximoData.Count, pageSize));
+            var dataCount = await _pencomService.GetSubmittedCount();
+            ecrData = await _pencomService.GetSubmittedData(page, pageSize);
+            ViewData["TotalPages"] = (int)Math.Ceiling(decimal.Divide(dataCount, pageSize));
             ViewData["CurrentPage"] = page;
 
-            loadDataModel.ECRDataModelList = ximoData.Skip((page - 1) * pageSize).Take(pageSize);
+            loadDataModel.ECRDataModelList = ecrData;
             loadDataModel.IsLoading = IsLoading;
-            loadDataModel.Count = ximoData.Count();
+            loadDataModel.Count = ecrData.Count();
             
             return View(loadDataModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> AcceptedData(int page = 1, int pageSize = 100)
+        public async Task<IActionResult> AcceptedData(int page = 1, int pageSize = 50)
         {
-            ximoData = await _pencomService.GetAcceptedData();
-            ViewData["TotalPages"] = (int)Math.Ceiling(decimal.Divide(ximoData.Count, pageSize));
+            var dataCount = await _pencomService.GetAcceptedCount();
+            ecrData = await _pencomService.GetAcceptedData(page, pageSize);
+            ViewData["TotalPages"] = (int)Math.Ceiling(decimal.Divide(dataCount, pageSize));
             ViewData["CurrentPage"] = page;
 
-            loadDataModel.ECRDataModelList = ximoData.Skip((page - 1) * pageSize).Take(pageSize);
+            loadDataModel.ECRDataModelList = ecrData;
             loadDataModel.IsLoading = IsLoading;
-            loadDataModel.Count = ximoData.Count();
+            loadDataModel.Count = ecrData.Count();
 
             return View(loadDataModel);
         }

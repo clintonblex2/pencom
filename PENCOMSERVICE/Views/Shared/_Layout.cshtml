@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #e3f2fd;">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PENCOMSERVICE</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,7 +22,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" style="margin-right:5px" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" style="margin-right:5px" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" style="margin-left:0px;margin-right:5px" asp-area="" asp-controller="Home" asp-action="SubmittedData">Submitted Data</a>
@@ -31,7 +31,12 @@
                             <a class="nav-link text-dark" style="margin-left:0px;margin-right:10px" asp-area="" asp-controller="Home" asp-action="AcceptedData">Accepted Data</a>
                         </li>
                     </ul>
+
                 </div>
+                <form class="form-inline my-2 my-lg-0" asp-controller="Home" asp-action="Search" method="get">
+                    <input class="form-control mr-sm-2 text-info" name="searchString" type="search" placeholder="Enter Pencom PIN" aria-label="Search" />
+                    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
         </nav>
     </header>

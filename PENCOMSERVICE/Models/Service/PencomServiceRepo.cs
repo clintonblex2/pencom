@@ -32,12 +32,6 @@ namespace PENCOMSERVICE.Models.Service
             _imagesContext = imagesContext;
         }
 
-        public async Task<int> GetCount()
-        {
-            var data = await GetData();
-            return data.Count();
-        }
-
         public async Task<List<ECRDataModel>> GetPaginatedDataResult()
         {
             return await GetData();
@@ -46,16 +40,16 @@ namespace PENCOMSERVICE.Models.Service
 
         private async Task<List<ECRDataModel>> GetData()
         {
-            // return await _dbContext.ECRDataModel.ToListAsync();
+
             var resList = new List<ECRDataModel>();
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted == false).Take(400).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && !pfa.IsSubmitted).Take(400).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
 
             var res = new ECRDataModel();
 
             foreach (var item in pfadata)
             {
                 Debug.WriteLine(item.Firstname + " " + item.Pin);
-                var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == item.Pin).FirstOrDefaultAsync().ConfigureAwait(false);
+                var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == item.Pin && i.PictureImage != null && i.SignatureImage != null && i.Thumbprint != null).FirstOrDefaultAsync().ConfigureAwait(false);
                 if (imgs != null)
                 {
                     res = new ECRDataModel
@@ -102,6 +96,7 @@ namespace PENCOMSERVICE.Models.Service
                         EmployerBox = item.EmployerBox,
                         EmployerPhone = item.EmployerPhone,
                         EmployerBusiness = item.EmployerBusiness,
+                        IsSubmitted = item.IsSubmitted,
                         NokTitle = item.NokTitle,
                         NokGender = item.NokGender,
                         NokName = item.NokName,
@@ -147,6 +142,59 @@ namespace PENCOMSERVICE.Models.Service
                 return new PencomResponse { responsecode = "", responsemessage = "no image found" };
             }
 
+            //var residentTownCity = model.PermCity.Trim();
+            //var residentStreetName = model.PermanentAddress1.Trim();
+            //var residentHouseNameNum = model.PermanentAddress1.Trim();
+            //var dateOfFirstAppointment = model.DateOfFirstApppoinment.GetValueOrDefault().ToString("yyyy-MM-dd");
+            var formRefNo = model.FormRefno is null ? "" : model.FormRefno.Trim();
+            var rsaStatus = model.RsaStatus is null ? "" : model.RsaStatus.Trim();
+            var pin = model.Pin is null ? "" : model.Pin.Trim();
+            var bvn = model.Bvn is null ? "" : model.Bvn.Trim();
+            var nin =model.Ssn is null ? "" : model.Ssn.Trim();
+            var title = model.Title is null ? "" : model.Title.Trim();
+            var surname = model.Surname is null ? "" : model.Surname.Trim();
+            var firstName = model.Firstname is null ? "" : model.Firstname.Trim();
+            var otherNames =model.Othernames is null ? "" : model.Othernames.Trim();
+            var maidenName = model.MaidenName is null ? "" : model.MaidenName.Trim();
+            var gender = model.Gender is null ? "" : model.Gender.Trim();
+            var maritalStatus = model.MaritalStatusCode is null ? "" : model.MaritalStatusCode.Trim();
+            var nationality = model.NationalityCode is null ? "" : model.NationalityCode.Trim();
+            var stateOfOriginCode = model.StateOfOrigin is null ? "" : model.StateOfOrigin.Trim();
+            var lgaCode = model.LgaCode is null ? "" : model.LgaCode.Trim();
+            var email = model.Email is null ? "" : model.Email.Trim();
+            var mobilePhone = model.MobilePhone is null ? "" : model.MobilePhone.Trim();
+            var poBox = model.PermBox is null ? "" : model.PermBox.Trim();
+            var nigeriaOrAbroad = model.PermanentAddressLocation is null ? "" : model.PermanentAddressLocation.Trim();
+            var residencyCountryCode = model.PermCountry is null ? "" : model.PermCountry.Trim();
+            var residentStateCode = model.PermState is null ? "" : model.PermState.Trim();
+            var residentLgaCode = model.PermLga is null ? "" : model.PermLga.Trim();
+            var residentZipCode = model.PermZip is null ? "" : model.PermZip.Trim();
+            var sectorClass = model.EmployerType is null ? "" : model.EmployerType.Trim();
+            var employerCode = model.EmployerRcno is null ? "" : model.EmployerRcno.Trim();
+            var employerLocation = model.EmployerLocation is null ? "" : model.EmployerLocation.Trim();
+            var employerCountry = model.EmployerCountry is null ? "" : model.EmployerCountry.Trim();
+            var employerStateCode = model.EmployerStatecode is null ? "" : model.EmployerStatecode.Trim();
+            var employerLga = model.EmployerLga is null ? "" : model.EmployerLga.Trim();
+            var employerCity = model.EmployerCity is null ? "" : model.EmployerCity.Trim();
+            var employerZip = model.EmployerZip is null ? "" : model.EmployerZip.Trim();
+            var employerPoBox = model.EmployerBox is null ? "" : model.EmployerBox.Trim();
+            var employerPhone = model.EmployerPhone is null ? "" : model.EmployerPhone.Trim();
+            var nokTitle = model.NokTitle is null ? "" : model.NokTitle.Trim();
+            var nokGender = model.NokGender is null ? "" : model.NokGender.Trim();
+            var nokSurname = model.NokSurname is null ? "" : model.NokSurname.Trim();
+            var nokName = model.NokName is null ? "" : model.NokName.Trim();
+            var nokMiddleName = model.NokOthername is null ? "" : model.NokOthername.Trim();
+            var nokRelationship = model.NokRelationship is null ? "" : model.NokRelationship.Trim();
+            var nokLocation = model.NokLocation is null ? "" : model.NokLocation.Trim();
+            var nokCountry = model.NokCountry is null ? "" : model.NokCountry.Trim();
+            var nokStateCode = model.NokStatecode is null ? "" : model.NokStatecode.Trim();
+            var nokLgaCode = model.NokLga is null ? "" : model.NokLga.Trim();
+            var nokZipCode = model.NokZip is null ? "" : model.NokZip.Trim();
+            var nokMobile = model.NokMobilePhone is null ? "" : model.NokMobilePhone.Trim();
+            var bioPicture = Convert.ToBase64String(model.PictureImage);
+            var bioSignature = Convert.ToBase64String(model.SignatureImage);
+            var bioThumbprint = Convert.ToBase64String(model.Thumbprint);
+
             var payload = @"<?xml version=""1.0"" encoding=""utf-8""?><soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:ws=""http://ws.services.model.ecrs.pencom.gov.ng/""><soapenv:Header/>
 <soapenv:Body>
             <ws:recaptureRequest><UserId>" + username + "</UserId>" + "<Password>" + password + "</Password>" +
@@ -158,76 +206,76 @@ namespace PENCOMSERVICE.Models.Service
             "<body>" +
             "<contributor>" +
                 "<dateOfRecapture>" + today + "</dateOfRecapture>" +
-                "<formNumber>" + model.FormRefno + "</formNumber>" +
+                "<formNumber>" +  formRefNo + "</formNumber>" +
                 "<personalData>" +
-                    "<rsaStatus>" + model.RsaStatus + "</rsaStatus>" +
-                    "<rsaPin>" + model.Pin + "</rsaPin>" +
-                    "<bvn>" + model.Bvn + "</bvn>" +
-                    "<nin>" + model.Ssn + "</nin>" +
-                    "<title>" + model.Title + "</title>" +
-                    "<surname>" + model.Surname + "</surname>" +
-                    "<firstName>" + model.Firstname + "</firstName>" +
-                    "<middleName>" + model.Othernames + "</middleName>" +
-                    "<maidenOrFormerName>" + model.MaidenName + "</maidenOrFormerName>" +
-                    "<gender>" + model.Gender + "</gender>" +
-                    "<maritalStatus>" + model.MaritalStatusCode + "</maritalStatus>" +
-                    "<nationality>" + model.NationalityCode + "</nationality>" +
-                    "<stateOfOriginCode>" + model.State + "</stateOfOriginCode>" +
-                    "<localGovernmentOfOriginCode>" + model.LgaCode + "</localGovernmentOfOriginCode>" +
+                    "<rsaStatus>" + rsaStatus + "</rsaStatus>" +
+                    "<rsaPin>" + pin + "</rsaPin>" +
+                    "<bvn>" + bvn + "</bvn>" +
+                    "<nin>" + nin + "</nin>" +
+                    "<title>" + title + "</title>" +
+                    "<surname>" + surname + "</surname>" +
+                    "<firstName>" + firstName + "</firstName>" +
+                    "<middleName>" + otherNames + "</middleName>" +
+                    "<maidenOrFormerName>" + maidenName + "</maidenOrFormerName>" +
+                    "<gender>" + gender + "</gender>" +
+                    "<maritalStatus>" + maritalStatus + "</maritalStatus>" +
+                    "<nationality>" + nationality + "</nationality>" +
+                    "<stateOfOriginCode>" + stateOfOriginCode + "</stateOfOriginCode>" +
+                    "<localGovernmentOfOriginCode>" + lgaCode + "</localGovernmentOfOriginCode>" +
                     "<dateOfBirth>" + dob + "</dateOfBirth>" +
                     "<placeOfBirth>" + model.PlaceOfBirth + "</placeOfBirth>" +
-                    "<email>" + model.Email + "</email>" +
-                    "<phoneNumber>" + model.MobilePhone + "</phoneNumber>" +
-                    "<poBox>" + model.PermBox + "</poBox>" +
-                    "<nigeriaOrAbroad>" + model.PermanentAddressLocation + "</nigeriaOrAbroad>" +
-                    "<residenceCountryCode>" + model.PermCountry + "</residenceCountryCode>" +
-                    "<residenceStateCode>" + model.PermState + "</residenceStateCode>" +
-                    "<residenceLocalGovernmentCode>" + model.PermLga + "</residenceLocalGovernmentCode>" +
+                    "<email>" + email + "</email>" +
+                    "<phoneNumber>" + mobilePhone + "</phoneNumber>" +
+                    "<poBox>" + poBox + "</poBox>" +
+                    "<nigeriaOrAbroad>" + nigeriaOrAbroad + "</nigeriaOrAbroad>" +
+                    "<residenceCountryCode>" + residencyCountryCode + "</residenceCountryCode>" +
+                    "<residenceStateCode>" + residentStateCode + "</residenceStateCode>" +
+                    "<residenceLocalGovernmentCode>" + residentLgaCode + "</residenceLocalGovernmentCode>" +
                     "<residenceTownCity>" + model.PermCity + "</residenceTownCity>" +
                     "<residenceStreetName>" + model.PermanentAddress1 + "</residenceStreetName>" +
                     "<residenceHouseNameOrNumber>" + model.PermanentAddress + "</residenceHouseNameOrNumber>" +
-                    "<residenceZipCode>" + model.PermZip + "</residenceZipCode>" +
+                    "<residenceZipCode>" + residentZipCode + "</residenceZipCode>" +
                 "</personalData>" +
                 "<employmentRecord>" +
-                    "<sectorClass>" + model.EmployerType + "</sectorClass>" +
-                    "<employerCode>" + model.EmployerRcno + "</employerCode>" +
-                    "<nigeriaOrAbroad>" + model.EmployerLocation + "</nigeriaOrAbroad>" +
-                    "<countryCode>" + model.EmployerCountry + "</countryCode>" +
-                    "<stateCode>" + model.EmployerStatecode + "</stateCode>" +
-                    "<localGovernmentCode>" + model.EmployerLga + "</localGovernmentCode>" +
-                    "<townCity>" + model.EmployerCity + "</townCity>" +
+                    "<sectorClass>" + sectorClass + "</sectorClass>" +
+                    "<employerCode>" + employerCode + "</employerCode>" +
+                    "<nigeriaOrAbroad>" + employerLocation + "</nigeriaOrAbroad>" +
+                    "<countryCode>" + employerCountry + "</countryCode>" +
+                    "<stateCode>" + employerStateCode + "</stateCode>" +
+                    "<localGovernmentCode>" + employerLga + "</localGovernmentCode>" +
+                    "<townCity>" + employerCity + "</townCity>" +
                     "<streetName>" + model.EmployerAddress1 + "</streetName>" +
                     "<buildingNameOrNumber>" + model.EmployerAddress + "</buildingNameOrNumber>" +
-                    "<zipCode>" + model.EmployerZip + "</zipCode>" +
-                    "<poBox>" + model.EmployerBox + "</poBox>" +
-                    "<phoneNumber>" + model.EmployerPhone + "</phoneNumber>" +
+                    "<zipCode>" + employerZip + "</zipCode>" +
+                    "<poBox>" + employerPoBox + "</poBox>" +
+                    "<phoneNumber>" + employerPhone + "</phoneNumber>" +
                     "<natureOfBusiness>" + model.EmployerBusiness + "</natureOfBusiness>" +
                     "<dateOfFirstAppointment>" + model.DateOfFirstApppoinment + "</dateOfFirstAppointment>" +
                     "<dateOfCurrentEmployment>" + model.DateEmployed + "</dateOfCurrentEmployment>" +
                 "</employmentRecord>" +
                 "<nextOfKinDetail>" +
-                    "<title>" + model.NokTitle + "</title>" +
-                    "<gender>" + model.NokGender + "</gender>" +
-                    "<surname>" + model.NokSurname + "</surname>" +
-                    "<firstName>" + model.NokName + "</firstName>" +
-                    "<middleName>" + model.NokOthername + "</middleName>" +
-                    "<relationship>" + model.NokRelationship + "</relationship>" +
-                    "<nigeriaOrAbroad>" + model.NokLocation + "</nigeriaOrAbroad>" +
-                    "<residenceCountryCode>" + model.NokCountry + "</residenceCountryCode>" +
-                    "<residenceStateCode>" + model.NokStatecode + "</residenceStateCode>" +
-                    "<residenceLocalGovernmentCode>" + model.NokLga + "</residenceLocalGovernmentCode>" +
+                    "<title>" + nokTitle + "</title>" +
+                    "<gender>" + nokGender + "</gender>" +
+                    "<surname>" + nokSurname + "</surname>" +
+                    "<firstName>" + nokName + "</firstName>" +
+                    "<middleName>" + nokMiddleName + "</middleName>" +
+                    "<relationship>" + nokRelationship + "</relationship>" +
+                    "<nigeriaOrAbroad>" + nokLocation + "</nigeriaOrAbroad>" +
+                    "<residenceCountryCode>" + nokCountry + "</residenceCountryCode>" +
+                    "<residenceStateCode>" + nokStateCode + "</residenceStateCode>" +
+                    "<residenceLocalGovernmentCode>" + nokLgaCode + "</residenceLocalGovernmentCode>" +
                     "<residenceTownCity>" + model.NokCity + "</residenceTownCity>" +
                     "<residenceStreetName>" + model.NokAddress1 + "</residenceStreetName>" +
                     "<residenceHouseNumber>" + model.NokAddress + "</residenceHouseNumber>" +
-                    "<zipCode>" + model.NokZip + "</zipCode>" +
+                    "<zipCode>" + nokZipCode + "</zipCode>" +
                     "<poBox>" + model.NokBox + "</poBox>" +
                     "<email>" + model.NokEmailaddress + "</email>" +
-                    "<phoneNumber>" + model.NokMobilePhone + "</phoneNumber>" +
+                    "<phoneNumber>" + nokMobile + "</phoneNumber>" +
                 "</nextOfKinDetail>" +
                 "<biometric>" +
-                    "<picture>" + Convert.ToBase64String(model.PictureImage) + "</picture>" +
-                    "<signature>" + Convert.ToBase64String(model.SignatureImage) + "</signature>" +
-                    "<consentForm>" + Convert.ToBase64String(model.Thumbprint) + "</consentForm>" +
+                    "<picture>" + bioPicture + "</picture>" +
+                    "<signature>" + bioSignature + "</signature>" +
+                    "<consentForm>" + bioThumbprint + "</consentForm>" +
                 "</biometric>" +
             "</contributor>" +
             "</body>" +
@@ -235,6 +283,7 @@ namespace PENCOMSERVICE.Models.Service
             "</ws:recaptureRequest></soapenv:Body></soapenv:Envelope>";
 
             WebClient webClient = new WebClient();
+            webClient.Headers["Content-Type"] = "text/xml; charset=utf-8";
             var jResult = new PencomResponse();
             var xmlOutput = "";
 
@@ -320,11 +369,12 @@ namespace PENCOMSERVICE.Models.Service
             return value.Length <= maxLength ? value : value.Substring(0, maxLength);
         }
 
-        public async Task<List<ECRDataModel>> GetAcceptedData()
+        public async Task<List<ECRDataModel>> GetAcceptedData(int page, int pageSize)
         {
             var resList = new List<ECRDataModel>();
             var status = " PIN has already been recaptured;";
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && (String.Equals(pfa.SubmitResponse, status) || String.Equals(pfa.SubmitResponse, "Accepted"))).ToListAsync().ConfigureAwait(false);
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && (String.Equals(pfa.SubmitResponse, status) || String.Equals(pfa.SubmitResponse, "Accepted")))
+                .Skip((page - 1) * pageSize).Take(pageSize).OrderByDescending(t => t.SubmitCode).ToListAsync().ConfigureAwait(false);
 
             var res = new ECRDataModel();
 
@@ -414,11 +464,20 @@ namespace PENCOMSERVICE.Models.Service
             return resList;
         }
 
-        public async Task<List<ECRDataModel>> GetSubmittedData()
+        public async Task<int> GetAcceptedCount()
+        {
+            var status = " PIN has already been recaptured;";
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && (String.Equals(pfa.SubmitResponse, status) || String.Equals(pfa.SubmitResponse, "Accepted")))
+                .ToListAsync().ConfigureAwait(false);
+            return pfadata.Count();
+        }
+
+        public async Task<List<ECRDataModel>> GetSubmittedData(int page, int pageSize)
         {
             var resList = new List<ECRDataModel>();
             var status = " PIN has already been recaptured;";
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && !String.Equals(pfa.SubmitResponse, status)).ToListAsync().ConfigureAwait(false);
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && !String.Equals(pfa.SubmitResponse, status) && pfa.SubmitResponse.ToUpper() != "ACCEPTED").Skip((page - 1) * pageSize).Take(pageSize).OrderByDescending(t => t.SubmitCode)
+                .ToListAsync().ConfigureAwait(false);
             var res = new ECRDataModel();
 
             foreach (var item in pfadata)
@@ -513,6 +572,13 @@ namespace PENCOMSERVICE.Models.Service
             return resList;
         }
 
+        public async Task<int> GetSubmittedCount()
+        {
+            var status = " PIN has already been recaptured;";
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && !String.Equals(pfa.SubmitResponse, status)).ToListAsync().ConfigureAwait(false);
+            return pfadata.Count();
+        }
+
         public async Task<string> GetRequestStatus(string setId)
         {
             var baseuri = "http://ecrs.pencom.gov.ng:7009/ECRS/RequestSubmissionWS";
@@ -573,6 +639,113 @@ namespace PENCOMSERVICE.Models.Service
             }
 
             // return "";
+        }
+
+        public async Task<List<ECRDataModel>> GetXimoData()
+        {
+            var ximoData = await _dbContext.ECRDataModel.ToListAsync();
+
+            if (ximoData != null)
+            {
+                IsLoading = false;
+            }
+
+            return ximoData;
+        }
+
+        
+        public async Task<List<ECRDataModel>> GetSearchResult(string searchString)
+        {
+            var resList = new List<ECRDataModel>();
+            var pfadata = new List<EmployeesRecapture>();
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.Pin.Contains(searchString)).Take(100).ToListAsync();
+            }
+
+            var res = new ECRDataModel();
+
+            foreach (var item in pfadata)
+            {
+                Debug.WriteLine(item.Firstname + " " + item.Pin);
+                var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == item.Pin).FirstOrDefaultAsync().ConfigureAwait(false);
+                if (imgs != null)
+                {
+                    res = new ECRDataModel
+                    {
+                        Bvn = item.Bvn,
+                        DateEmployed = item.DateEmployed,
+                        DateOfBirth = item.DateOfBirth,
+                        DateOfFirstApppoinment = item.DateOfFirstApppoinment,
+                        Email = item.Email,
+                        Pin = item.Pin,
+                        Title = item.Title,
+                        Surname = item.Surname,
+                        Firstname = item.Firstname,
+                        Othernames = item.Othernames,
+                        MaidenName = item.MaidenName,
+                        Gender = item.Gender,
+                        MaritalStatusCode = item.MaritalStatusCode,
+                        NationalityCode = item.NationalityCode,
+                        StateOfOrigin = item.StateOfOrigin,
+                        LgaCode = item.LgaCode,
+                        PlaceOfBirth = item.PlaceOfBirth,
+                        Ssn = item.Ssn,
+                        PermanentAddressLocation = item.PermanentAddressLocation,
+                        PermanentAddress = item.PermanentAddress,
+                        PermanentAddress1 = item.PermanentAddress1,
+                        PermCity = item.PermCity,
+                        PermLga = item.PermLga,
+                        PermState = item.PermState,
+                        PermCountry = item.PermCountry,
+                        PermZip = item.PermZip,
+                        PermBox = item.PermBox,
+                        MobilePhone = item.MobilePhone,
+                        State = item.State,
+                        EmployerType = item.EmployerType,
+                        EmployerRcno = item.EmployerRcno,
+                        EmployerLocation = item.EmployerLocation,
+                        EmployerAddress = item.EmployerAddress,
+                        EmployerAddress1 = item.EmployerAddress1,
+                        EmployerCity = item.EmployerCity,
+                        EmployerLga = item.EmployerLga,
+                        EmployerStatecode = item.EmployerStatecode,
+                        EmployerCountry = item.EmployerCountry,
+                        EmployerZip = item.EmployerZip,
+                        EmployerBox = item.EmployerBox,
+                        EmployerPhone = item.EmployerPhone,
+                        EmployerBusiness = item.EmployerBusiness,
+                        IsSubmitted = item.IsSubmitted,
+                        NokTitle = item.NokTitle,
+                        NokGender = item.NokGender,
+                        NokName = item.NokName,
+                        NokOthername = item.NokOthername,
+                        NokSurname = item.NokSurname,
+                        NokRelationship = item.NokRelationship,
+                        NokLocation = item.NokLocation,
+                        NokAddress = item.NokAddress,
+                        NokAddress1 = item.NokAddress1,
+                        NokCity = item.NokCity,
+                        NokLga = item.NokLga,
+                        NokStatecode = item.NokStatecode,
+                        NokCountry = item.NokCountry,
+                        NokZip = item.NokZip,
+                        NokBox = item.NokBox,
+                        NokMobilePhone = item.NokMobilePhone,
+                        NokEmailaddress = item.NokEmailaddress,
+                        FormRefno = item.FormRefno,
+                        RsaStatus = item.RsaStatus,
+                        PictureImage = imgs.PictureImage,
+                        SignatureImage = imgs.SignatureImage,
+                        Thumbprint = imgs.Thumbprint
+                    };
+
+                    resList.Add(res);
+                }
+
+            }
+
+            return resList;
         }
     }
 }

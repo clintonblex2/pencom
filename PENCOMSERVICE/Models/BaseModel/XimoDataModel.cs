@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace PENCOMSERVICE.Models.BaseModel
 {
-    [BindProperties(SupportsGet = true)]
-    public class ECRDataModel
+    public class XimoDataModel
     {
-        public ECRDataModel()
+        public XimoDataModel()
         {
 
         }
@@ -87,8 +85,5 @@ namespace PENCOMSERVICE.Models.BaseModel
         //App Reliability Property
         public bool IsSubmitted { get; set; }
         public string SubmitResponse { get; set; }
-        
-        public string SubmitCode { get; set; }
     }
-
 }
