@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using PENCOMSERVICE.Models.BaseModel;
 using PENCOMSERVICE.Models.Interface;
@@ -32,6 +32,22 @@ namespace PENCOMSERVICE.Models.Service
             _imagesContext = imagesContext;
         }
 
+<<<<<<< HEAD
+=======
+        public async Task<int> GetCount()
+        {
+            var data = await GetData();
+            return data.Count();
+        }
+
+        public async Task<int> GetDataByDateCount()
+        {
+            var data = await GetData();
+            return data.Count();
+        }
+
+
+>>>>>>> c637b11... starting dateRange filter
         public async Task<List<ECRDataModel>> GetPaginatedDataResult()
         {
             return await GetData();
@@ -42,7 +58,101 @@ namespace PENCOMSERVICE.Models.Service
         {
 
             var resList = new List<ECRDataModel>();
+<<<<<<< HEAD
             var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && !pfa.IsSubmitted).Take(400).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
+=======
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted == false).Take(600).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
+
+            var res = new ECRDataModel();
+
+            foreach (var item in pfadata)
+            {
+                Debug.WriteLine(item.Firstname + " " + item.Pin);
+                var imgs = await _imagesContext.EmployeeImagesRecapture.Where(i => i.Pin == item.Pin).FirstOrDefaultAsync().ConfigureAwait(false);
+                if (imgs != null)
+                {
+                    res = new ECRDataModel
+                    {
+                        Bvn = item.Bvn,
+                        DateEmployed = item.DateEmployed,
+                        DateOfBirth = item.DateOfBirth,
+                        DateOfFirstApppoinment = item.DateOfFirstApppoinment,
+                        Email = item.Email,
+                        Pin = item.Pin,
+                        Title = item.Title,
+                        Surname = item.Surname,
+                        Firstname = item.Firstname,
+                        Othernames = item.Othernames,
+                        MaidenName = item.MaidenName,
+                        Gender = item.Gender,
+                        MaritalStatusCode = item.MaritalStatusCode,
+                        NationalityCode = item.NationalityCode,
+                        StateOfOrigin = item.StateOfOrigin,
+                        LgaCode = item.LgaCode,
+                        PlaceOfBirth = item.PlaceOfBirth,
+                        Ssn = item.Ssn,
+                        PermanentAddressLocation = item.PermanentAddressLocation,
+                        PermanentAddress = item.PermanentAddress,
+                        PermanentAddress1 = item.PermanentAddress1,
+                        PermCity = item.PermCity,
+                        PermLga = item.PermLga,
+                        PermState = item.PermState,
+                        PermCountry = item.PermCountry,
+                        PermZip = item.PermZip,
+                        PermBox = item.PermBox,
+                        MobilePhone = item.MobilePhone,
+                        State = item.State,
+                        EmployerType = item.EmployerType,
+                        EmployerRcno = item.EmployerRcno,
+                        EmployerLocation = item.EmployerLocation,
+                        EmployerAddress = item.EmployerAddress,
+                        EmployerAddress1 = item.EmployerAddress1,
+                        EmployerCity = item.EmployerCity,
+                        EmployerLga = item.EmployerLga,
+                        EmployerStatecode = item.EmployerStatecode,
+                        EmployerCountry = item.EmployerCountry,
+                        EmployerZip = item.EmployerZip,
+                        EmployerBox = item.EmployerBox,
+                        EmployerPhone = item.EmployerPhone,
+                        EmployerBusiness = item.EmployerBusiness,
+                        NokTitle = item.NokTitle,
+                        NokGender = item.NokGender,
+                        NokName = item.NokName,
+                        NokOthername = item.NokOthername,
+                        NokSurname = item.NokSurname,
+                        NokRelationship = item.NokRelationship,
+                        NokLocation = item.NokLocation,
+                        NokAddress = item.NokAddress,
+                        NokAddress1 = item.NokAddress1,
+                        NokCity = item.NokCity,
+                        NokLga = item.NokLga,
+                        NokStatecode = item.NokStatecode,
+                        NokCountry = item.NokCountry,
+                        NokZip = item.NokZip,
+                        NokBox = item.NokBox,
+                        NokMobilePhone = item.NokMobilePhone,
+                        NokEmailaddress = item.NokEmailaddress,
+                        FormRefno = item.FormRefno,
+                        RsaStatus = item.RsaStatus,
+                        PictureImage = imgs.PictureImage,
+                        SignatureImage = imgs.SignatureImage,
+                        Thumbprint = imgs.Thumbprint
+                    };
+
+                    resList.Add(res);
+                }
+
+            }
+
+            return resList;
+        }
+
+        private async Task<List<ECRDataModel>> GetDataByDate(DateTime startDate, DateTime endDate)
+        {
+            // return await _dbContext.ECRDataModel.ToListAsync();
+            var resList = new List<ECRDataModel>();
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == false && pfa.IsSubmitted == false && pfa.DateCreated < endDate && pfa.DateCreated > startDate).Take(400).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
+>>>>>>> c637b11... starting dateRange filter
 
             var res = new ECRDataModel();
 
