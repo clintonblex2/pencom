@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using PENCOMSERVICE.Models.Interface;
 using PENCOMSERVICE.Models.Service;
+using ReflectionIT.Mvc.Paging;
 
 namespace PENCOMSERVICE
 {
@@ -53,6 +54,11 @@ namespace PENCOMSERVICE
             services.AddScoped<IPencomService, PencomServiceRepo>();
 
             services.AddMvc().AddXmlSerializerFormatters();
+
+            services.AddPaging(options => {
+                options.ViewName = "Bootstrap4";
+                options.PageParameterName = "pageindex";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

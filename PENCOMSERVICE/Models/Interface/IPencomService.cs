@@ -1,4 +1,4 @@
-﻿using PENCOMSERVICE.Models.BaseModel;
+using PENCOMSERVICE.Models.BaseModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +13,13 @@ namespace PENCOMSERVICE.Models.Interface
         Task<int> GetPaginatedDataByDateCount(DateTime start, DateTime end);
         //Task<int> GetCount();
         Task<PencomResponse> SubmitData(ECRDataModel model);
+<<<<<<< HEAD
         Task<List<ECRDataModel>> GetSubmittedData(int page, int pageSize);
         Task<List<ECRDataModel>> GetAwaitingStatusData();
+=======
+        Task<List<ECRDataModel>> GetSubmittedData();
+        Task<List<ECRDataModel>> GetAwaitingStatusData(int page, int pageSize);
+>>>>>>> 65d5884... Added Pagination
         Task<List<ECRDataModel>> GetAcceptedData(int page, int pageSize);
         string GetRequestStatus(string pin);
         Task<int> GetAcceptedCount();

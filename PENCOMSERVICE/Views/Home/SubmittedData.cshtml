@@ -1,4 +1,6 @@
-﻿@model PENCOMSERVICE.Models.ViewModel.LoadDataViewModel
+﻿@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+@model PagingList<PENCOMSERVICE.Models.BaseModel.ECRDataModel>
 
 @{
     ViewData["Title"] = "Submitted Pencom Data";
@@ -39,7 +41,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.ECRDataModelList)
+                            @foreach (var item in Model)
                             {
                                 serialCounter++;
                                 <tr>
@@ -59,10 +61,14 @@
                         @* }*@
                     </table>
 
+                    <nav class="align-content-end mt-3" aria-label="Pencom pagination">
+                        <vc:pager paging-list="@Model" />
+                    </nav>
+
                 </form>
                 <!-- Pagination
     ============================================= -->
-                <ul class="pagination justify-content-center mt-4 mb-0">
+                @*<ul class="pagination justify-content-center mt-4 mb-0">
                     
 
                     <li class="page-item">
@@ -96,27 +102,14 @@
                     <li class="page-item">
                         <a asp-page="" asp-route-page="@(ViewBag.TotalPages)" class="page-link">Last</a>
                     </li>
-                </ul>
+                </ul>*@
                 <!-- Paginations end -->
 
+               
+                
+            
             </div>
         </div>
-
-        
-
-        @{
-            int count = 0;
-        }
-
-        @if (Model.ECRDataModelList == null)
-        {
-            <p><em>Loading...</em></p>
-        }
-        else
-        {
-
-
-        }
 
     </div>
 

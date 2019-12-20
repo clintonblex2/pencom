@@ -211,3 +211,9 @@ body {
     border: 1px solid #ddd;
     margin: 0;
 }
+
+.text-truncate{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
