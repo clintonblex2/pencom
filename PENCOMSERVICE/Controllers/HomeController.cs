@@ -132,25 +132,23 @@ namespace PENCOMSERVICE.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SubmittedData(int pageIndex = 1, string sort = "SubmitCode")
+        public async Task<IActionResult> SubmittedData(int pageIndex = 1, int pageSize = 50)
         {
-            //var dataCount = await _pencomService.GetSubmittedCount();
             ecrData = await _pencomService.GetSubmittedData();
-            //var totpgs = (int)Math.Ceiling(decimal.Divide(dataCount, pageSize));
-            //ViewData["TotalPages"] = totpgs;
-            //ViewData["CurrentPage"] = page;
+            var totpgs = (int)Math.Ceiling(decimal.Divide(ecrData.Count, pageSize));
+            ViewData["TotalPages"] = totpgs;
+            ViewData["CurrentPage"] = pageIndex;
 
-            //var loadedData = loadDataModel.ECRDataModelList.OrderByDescending(t => t.Pin);
-            loadDataModel.ECRDataModelList = ecrData.OrderByDescending(o => o.SubmitCode);
-            int pageSize = 50;
+            loadDataModel.ECRDataModelList = ecrData.Skip((pageIndex - 1) * pageSize).Take(pageSize).OrderByDescending(o => o.SubmitCode);
 
-            var model = PagingList.Create(loadDataModel.ECRDataModelList, pageSize, pageIndex, sort, "SubmitCode");
-
+            //int pageSize = 50;
+            //var model = PagingList.Create(loadDataModel.ECRDataModelList, pageSize, pageIndex, sort, "SubmitCode");
             //loadDataModel.ECRDataModelList = ecrData;
-            //loadDataModel.IsLoading = IsLoading;
-            //loadDataModel.Count = ecrData.Count;
 
-            return View(model);
+            loadDataModel.IsLoading = IsLoading;
+            loadDataModel.Count = ecrData.Count;
+
+            return View(loadDataModel);
         }
 
         [HttpGet]

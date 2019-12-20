@@ -394,7 +394,7 @@ namespace PENCOMSERVICE.Models.Service
             }
             catch (WebException ex)
             {
-                var errorResponse = new PencomResponse { responsecode = "500", responsemessage = $" {ex.Message} -  Please review this data for mandatory fields" };
+                var errorResponse = new PencomResponse { responsecode = "500", responsemessage = $" {ex.Message} -  Please review this data and remove any special characters (i.e. &, $, %, * and +)" };
                 emp.IsSubmitted = false;
                 emp.SubmitResponse = errorResponse.responsemessage;
                 emp.SubmitCode = errorResponse.responsecode;
@@ -800,7 +800,7 @@ namespace PENCOMSERVICE.Models.Service
             var pfadata = new List<EmployeesRecapture>();
             if (!String.IsNullOrEmpty(searchString))
             {
-                pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.Pin.Contains(searchString)).Take(100).ToListAsync();
+                pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Pin.Contains(searchString)).Take(100).ToListAsync();
             }
 
             var res = new ECRDataModel();

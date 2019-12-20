@@ -1,6 +1,5 @@
-﻿@using ReflectionIT.Mvc.Paging
-@addTagHelper *, ReflectionIT.Mvc.Paging
-@model PagingList<PENCOMSERVICE.Models.BaseModel.ECRDataModel>
+﻿
+@model PENCOMSERVICE.Models.ViewModel.LoadDataViewModel
 
 @{
     ViewData["Title"] = "Submitted Pencom Data";
@@ -41,73 +40,77 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.ECRDataModelList)
                             {
                                 serialCounter++;
-                                <tr>
-                                    <td class="pt-3-half" contenteditable="false">@serialCounter</td>
-                                    <td class="pt-3-half" contenteditable="false">@item.FormRefno</td>
-                                    <td class="pt-3-half" contenteditable="false">@item.Firstname</td>
-                                    <td class="pt-3-half" contenteditable="false">@item.Surname</td>
-                                    <td class="pt-3-half">@item.Othernames</td>
-                                    <td class="pt-3-half text-danger" contenteditable="false"><input type="hidden" asp-for="@(item.Pin)" />@item.Pin</td>
-                                    <td class="pt-3-half text-success" contenteditable="false"><input type="hidden" asp-for="@(item.SubmitCode)" />@item.SubmitCode</td>
-                                    <td class="pt-3-half" contenteditable="false">
-                                        <a class="btn btn-info btn-rounded btn-sm my-0" href=".././EmployeeEdit/details?pin=@item.Pin">View Details</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td class="pt-3-half" contenteditable="false">@serialCounter</td>
+                                <td class="pt-3-half" contenteditable="false">@item.FormRefno</td>
+                                <td class="pt-3-half" contenteditable="false">@item.Firstname</td>
+                                <td class="pt-3-half" contenteditable="false">@item.Surname</td>
+                                <td class="pt-3-half">@item.Othernames</td>
+                                <td class="pt-3-half text-danger" contenteditable="false"><input type="hidden" asp-for="@(item.Pin)" />@item.Pin</td>
+                                <td class="pt-3-half text-success" contenteditable="false"><input type="hidden" asp-for="@(item.SubmitCode)" />@item.SubmitCode</td>
+                                <td class="pt-3-half" contenteditable="false">
+                                    <a class="btn btn-info btn-rounded btn-sm my-0" href=".././EmployeeEdit/details?pin=@item.Pin">View Details</a>
+                                </td>
+                            </tr>
                             }
                         </tbody>
                         @* }*@
                     </table>
 
-                    <nav class="align-content-end mt-3" aria-label="Pencom pagination">
-                        <vc:pager paging-list="@Model" />
-                    </nav>
-
                 </form>
                 <!-- Pagination
     ============================================= -->
+                <ul class="pagination justify-content-center mt-4 mb-0">
+                    @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                        <a asp-page="" asp-route-pageIndex="@i" class="page-link">@i</a>
+                    </li>
+                    }
+                </ul>
                 @*<ul class="pagination justify-content-center mt-4 mb-0">
-                    
 
-                    <li class="page-item">
-                        <a asp-page="" asp-route-page="1" class="page-link">First</a>
-                    </li>
-                    @if (ViewBag.CurrentPage - 1 <= 0)
-                    {
-                        <li class="page-item">
-                            <a asp-page="" asp-route-page="@(ViewBag.CurrentPage)" class="page-link">Previous</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="page-item">
-                            <a asp-page="" asp-route-page="@(ViewBag.CurrentPage - 1)" class="page-link">Previous</a>
-                        </li>
-                    }
 
-                    @if (ViewBag.CurrentPage + 1 > ViewBag.TotalPages)
-                    {
-                        <li class="page-item">
-                            <a asp-page="" asp-route-page="@(ViewBag.CurrentPage)" class="page-link">Next</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="page-item">
-                            <a asp-page="" asp-route-page="@(ViewBag.CurrentPage + 1)" class="page-link">Next</a>
-                        </li>
-                    }
-                    <li class="page-item">
-                        <a asp-page="" asp-route-page="@(ViewBag.TotalPages)" class="page-link">Last</a>
-                    </li>
-                </ul>*@
+            <li class="page-item">
+                <a asp-page="" asp-route-page="1" class="page-link">First</a>
+            </li>
+            @if (ViewBag.CurrentPage - 1 <= 0)
+            {
+                <li class="page-item">
+                    <a asp-page="" asp-route-page="@(ViewBag.CurrentPage)" class="page-link">Previous</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a asp-page="" asp-route-page="@(ViewBag.CurrentPage - 1)" class="page-link">Previous</a>
+                </li>
+            }
+
+            @if (ViewBag.CurrentPage + 1 > ViewBag.TotalPages)
+            {
+                <li class="page-item">
+                    <a asp-page="" asp-route-page="@(ViewBag.CurrentPage)" class="page-link">Next</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a asp-page="" asp-route-page="@(ViewBag.CurrentPage + 1)" class="page-link">Next</a>
+                </li>
+            }
+            <li class="page-item">
+                <a asp-page="" asp-route-page="@(ViewBag.TotalPages)" class="page-link">Last</a>
+            </li>
+        </ul>*@
                 <!-- Paginations end -->
 
-               
-                
-            
+
+
+
             </div>
         </div>
 
