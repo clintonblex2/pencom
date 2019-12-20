@@ -56,7 +56,7 @@ namespace PENCOMSERVICE.Models.Service
         {
 
             var resList = new List<ECRDataModel>();
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == false && !pfa.IsSubmitted).Take(400).OrderByDescending( t => t.DateCreated).ToListAsync(); // I removed the .where(is approved and issubmitted) please in the db edit the ISsubmitted row to False for all and rerun that should work
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => !pfa.Approved && !pfa.IsSubmitted).Take(4000).OrderByDescending( t => t.DateCreated).ToListAsync(); 
             
             var res = new ECRDataModel();
 
