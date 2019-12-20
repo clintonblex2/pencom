@@ -617,7 +617,8 @@ namespace PENCOMSERVICE.Models.Service
         public async Task<List<ECRDataModel>> GetAwaitingStatusData()
         {
             var resList = new List<ECRDataModel>();
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved && pfa.IsSubmitted && String.IsNullOrEmpty(pfa.SubmitResponse)).OrderByDescending(t => t.SubmitCode)
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved && pfa.IsSubmitted && !String.IsNullOrEmpty(pfa.SubmitCode) && String.IsNullOrEmpty(pfa.SubmitResponse)).OrderByDescending(t => t.SubmitCode)
+                .Take(400)
                 .ToListAsync().ConfigureAwait(false);
             var res = new ECRDataModel();
 
@@ -978,5 +979,7 @@ namespace PENCOMSERVICE.Models.Service
 
             return resList;
         }
+
+        
     }
 }
