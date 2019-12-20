@@ -611,10 +611,10 @@ namespace PENCOMSERVICE.Models.Service
             return resList;
         }
 
-        public async Task<List<ECRDataModel>> GetAwaitingStatusData(int page, int pageSize)
+        public async Task<List<ECRDataModel>> GetAwaitingStatusData()
         {
             var resList = new List<ECRDataModel>();
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && String.IsNullOrEmpty(pfa.SubmitResponse)).Skip((page - 1) * pageSize).Take(pageSize).OrderByDescending(t => t.SubmitCode)
+            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved && pfa.IsSubmitted && String.IsNullOrEmpty(pfa.SubmitResponse)).OrderByDescending(t => t.SubmitCode)
                 .ToListAsync().ConfigureAwait(false);
             var res = new ECRDataModel();
 
@@ -711,15 +711,6 @@ namespace PENCOMSERVICE.Models.Service
             var status = " PIN has already been recaptured;";
             
             var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && !String.Equals(pfa.SubmitResponse, status) && pfa.SubmitResponse.ToUpper() != "ACCEPTED").OrderByDescending(t => t.SubmitCode)
-                .ToListAsync().ConfigureAwait(false);
-            return pfadata.Count();
-        }
-
-        public async Task<int> GetAwaitingStatusCount()
-        {
-            var status = " PIN has already been recaptured;";
-
-            var pfadata = await _pfaContext.EmployeesRecapture.Where(pfa => pfa.Approved == true && pfa.IsSubmitted && String.IsNullOrEmpty(pfa.SubmitResponse)).OrderByDescending(t => t.SubmitCode)
                 .ToListAsync().ConfigureAwait(false);
             return pfadata.Count();
         }

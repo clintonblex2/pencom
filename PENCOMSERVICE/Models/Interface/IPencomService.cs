@@ -14,7 +14,7 @@ namespace PENCOMSERVICE.Models.Interface
         //Task<int> GetCount();
         Task<PencomResponse> SubmitData(ECRDataModel model);
         Task<List<ECRDataModel>> GetSubmittedData(int page, int pageSize);
-        Task<List<ECRDataModel>> GetAwaitingStatusData(int page, int pageSize);
+        Task<List<ECRDataModel>> GetAwaitingStatusData();
         Task<List<ECRDataModel>> GetAcceptedData(int page, int pageSize);
         string GetRequestStatus(string pin);
         Task<int> GetAcceptedCount();

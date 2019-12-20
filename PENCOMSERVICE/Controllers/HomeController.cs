@@ -102,7 +102,7 @@ namespace PENCOMSERVICE.Controllers
         {
 
             var statusResponse = "";
-            ecrData = await _pencomService.GetPaginatedDataResult();
+            ecrData = await _pencomService.GetAwaitingStatusData();
             var result = new PencomResponse();
 
             foreach (var data in ecrData)
@@ -135,13 +135,9 @@ namespace PENCOMSERVICE.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AwaitingStatusData(int page = 1, int pageSize = 50)
+        public async Task<IActionResult> AwaitingStatusData()
         {
-            var dataCount = await _pencomService.GetAwaitingStatusCount();
-            ecrData = await _pencomService.GetAwaitingStatusData(page, pageSize);
-            var totpgs = (int)Math.Ceiling(decimal.Divide(dataCount, pageSize));
-            ViewData["TotalPages"] = totpgs;
-            ViewData["CurrentPage"] = page;
+            ecrData = await _pencomService.GetAwaitingStatusData();
 
             loadDataModel.ECRDataModelList = ecrData;
             loadDataModel.IsLoading = IsLoading;

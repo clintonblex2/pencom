@@ -19,7 +19,7 @@
 
         <h1>@ViewBag.LoadingData</h1>
         <div class="card-body">
-            <h6 class="card-title text-center text-muted">Successfully fetched <strong>@Model.Count</strong> submitted user data from Pencom Database</h6>
+            <h6 class="card-title text-center text-muted">Successfully fetched <strong>@Model.Count</strong> submitted user data and awaiting status request from Pencom Database</h6>
             <div id="table" class="table-editable">
                 <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
                 <form asp-controller="Home" asp-action="RequestStatus" method="post">
@@ -67,20 +67,6 @@
                     </div>
 
                 </form>
-                <!-- Pagination
-    ============================================= -->
-                <ul class="pagination justify-content-center mt-4 mb-0">
-
-
-                    @for (var i = 1; i <= ViewBag.TotalPages; i++)
-                    {
-                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                            <a asp-page="" asp-route-page="@i" class="page-link">@i</a>
-                        </li>
-                    }
-                </ul>
-                <!-- Paginations end -->
-
             </div>
         </div>
 
