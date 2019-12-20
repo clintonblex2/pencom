@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Home Page";
     var data = Model;
+    int serialCounter = 0;
 }
 
 @section Scripts {
@@ -22,31 +23,57 @@
             <h6 class="card-title text-center text-muted">Successfully fetched <strong>@Model.Count</strong> user data from Pencom Database</h6>
             <div id="table" class="table-editable">
                 <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+
+                <div>
+                    <form asp-controller="Home" asp-action="GetByDateRange" method="get">
+                        <div class="form-group row">
+                            <div class="col-xs-2" style="margin-right:25px">
+                                <label for="ex1">Start From</label>
+                                <input name="startDate" type="datetime-local" class="form-control">
+                            </div>
+                            <div class="col-xs-2" style="margin-right:25px">
+                                <label for="ex2">End At</label>
+                                <input name="endDate" type="datetime-local" class="form-control">
+                            </div>
+                            <div class="col-xs-2" style="margin-top:32px">
+                                <button type="submit" class="btn btn-outline-info my-2 my-sm-0">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
                 <form asp-controller="Home" asp-action="Submit" method="post">
                     <table class="table table-bordered table-responsive-md table-striped text-center">
                         @*@using (Html.BeginForm("Index", "Home", FormMethod.Get))
-                            {*@
+                {*@
                         <thead>
                             <tr>
+                                <th class="text-center">S/N</th>
                                 <th class="text-center">Form Ref Number </th>
                                 <th class="text-center">FirstName </th>
                                 <th class="text-center">Surname </th>
                                 <th class="text-center">Other Names</th>
                                 <th class="text-center">Pencom PIN </th>
                                 <th class="text-center">Submit Status </th>
+                                <th class="text-center">Submit Response </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model.ECRDataModelList)
                             {
+                                serialCounter++;
                                 <tr>
-
+                                    <td class="pt-3-half" contenteditable="false">@serialCounter</td>
                                     <td class="pt-3-half" contenteditable="false">@item.FormRefno</td>
                                     <td class="pt-3-half" contenteditable="false">@item.Firstname</td>
                                     <td class="pt-3-half" contenteditable="false">@item.Surname</td>
                                     <td class="pt-3-half">@item.Othernames</td>
                                     <td class="pt-3-half text-success" contenteditable="false"><input type="hidden" asp-for="@(item.Pin)" />@item.Pin</td>
                                     <td class="pt-3-half text-danger" contenteditable="false">@item.IsSubmitted</td>
+                                    <td class="pt-3-half text-danger ellipsis" contenteditable="false">@item.SubmitResponse</td>
+                                    <td class="pt-3-half" contenteditable="false">
+                                        <a class="btn btn-info btn-rounded btn-sm my-0" href=".././EmployeeEdit/details?pin=@item.Pin">View Details</a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>

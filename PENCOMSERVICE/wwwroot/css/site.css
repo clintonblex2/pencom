@@ -201,3 +201,13 @@ body {
 .pt-3-half {
     padding-top: 1.4rem;
 }
+
+.ellipsis {
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    border: 1px solid #ddd;
+    margin: 0;
+}

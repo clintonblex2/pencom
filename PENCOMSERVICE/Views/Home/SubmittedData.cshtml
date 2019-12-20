@@ -1,11 +1,9 @@
 ﻿@model PENCOMSERVICE.Models.ViewModel.LoadDataViewModel
 
-@*@{
+@{
     ViewData["Title"] = "Submitted Pencom Data";
+    int serialCounter = 0;
 }
-<h1>@ViewData["Title"]</h1>
-
-<p>Use this page to view the details of the submitted pencom data.</p>*@
 
 @section Scripts {
     <script type="text/javascript" src="~/js/site.js">
@@ -30,6 +28,7 @@
                 {*@
                         <thead>
                             <tr>
+                                <th class="text-center">S/N</th>
                                 <th class="text-center">Form Ref No.</th>
                                 <th class="text-center">FirstName </th>
                                 <th class="text-center">Surname </th>
@@ -42,8 +41,9 @@
                         <tbody>
                             @foreach (var item in Model.ECRDataModelList)
                             {
+                                serialCounter++;
                                 <tr>
-
+                                    <td class="pt-3-half" contenteditable="false">@serialCounter</td>
                                     <td class="pt-3-half" contenteditable="false">@item.FormRefno</td>
                                     <td class="pt-3-half" contenteditable="false">@item.Firstname</td>
                                     <td class="pt-3-half" contenteditable="false">@item.Surname</td>
@@ -63,6 +63,8 @@
                 <!-- Pagination
     ============================================= -->
                 <ul class="pagination justify-content-center mt-4 mb-0">
+                    
+
                     <li class="page-item">
                         <a asp-page="" asp-route-page="1" class="page-link">First</a>
                     </li>

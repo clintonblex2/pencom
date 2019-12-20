@@ -35,6 +35,7 @@
                                 <th class="text-center">Other Names</th>
                                 <th class="text-center">Pencom PIN </th>
                                 <th class="text-center">Submit Status </th>
+                                <th class="text-center">Submit Response </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,7 +51,7 @@
                                 <td class="pt-3-half text-danger" contenteditable="false">@item.IsSubmitted</td>
                                 @if (item.IsSubmitted)
                                 {
-                                    <td class="pt-3-half text-success" contenteditable="false"><input type="hidden" asp-for="@(item.SubmitCode)" />@item.SubmitCode</td>
+                                    <td class="pt-3-half text-success" contenteditable="false"><input type="hidden" asp-for="@(item.SubmitCode)" />@item.SubmitResponse</td>
                                     <td class="pt-3-half" contenteditable="false">
                                         <a class="btn btn-info btn-rounded btn-sm my-0" href=".././EmployeeEdit/details?pin=@item.Pin">View Details</a>
                                     </td>

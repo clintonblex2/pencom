@@ -69,6 +69,20 @@ namespace PENCOMSERVICE.Controllers
             return View(loadDataModel).WithSuccess($"Search Results for {searchString} : {count} {(count > 1 ? "Results" : "Result")}", "");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetByDateRange(DateTime startDate, DateTime endDate)
+        {
+            paginationModel = new PaginationModel();
+            ecrData = await _pencomService.GetPaginatedDataByDate(startDate, endDate);
+            var dataCount = await _pencomService.GetPaginatedDataByDateCount(startDate, endDate);
+
+            loadDataModel.ECRDataModelList = ecrData;
+            loadDataModel.IsLoading = IsLoading;
+            loadDataModel.Count = ecrData.Count;
+
+            return View(loadDataModel).WithSuccess($"Data Results for {startDate.ToShortDateString()} till {endDate.ToShortDateString()}  : {ecrData.Count} {(ecrData.Count > 1 ? "Results" : "Result")}", "");
+        }
+
         //[HttpPost]
         public async Task<IActionResult> Submit(List<ECRDataModel> eCRDataModels)
         {
@@ -83,6 +97,22 @@ namespace PENCOMSERVICE.Controllers
             return RedirectToAction(nameof(SubmittedData)).WithSuccess($"Successfully submitted {result.Counter} users data to ECR database for Recapture Processing","");
         }
 
+
+        public async Task<IActionResult> RequestStatus(List<ECRDataModel> eCRDataModels)
+        {
+
+            var statusResponse = "";
+            ecrData = await _pencomService.GetPaginatedDataResult();
+            var result = new PencomResponse();
+
+            foreach (var data in ecrData)
+            {
+                statusResponse = _pencomService.GetRequestStatus(data.SubmitCode);
+            }
+            // Create SubmitData ViewModel and pass all the needed fields to it
+            return RedirectToAction(nameof(SubmittedData)).WithSuccess($"Successfully submitted {result.Counter} users data to ECR database for Recapture Processing", "");
+        }
+
         public IActionResult Privacy()
         {
             return View();
@@ -93,13 +123,30 @@ namespace PENCOMSERVICE.Controllers
         {
             var dataCount = await _pencomService.GetSubmittedCount();
             ecrData = await _pencomService.GetSubmittedData(page, pageSize);
-            ViewData["TotalPages"] = (int)Math.Ceiling(decimal.Divide(dataCount, pageSize));
+            var totpgs = (int)Math.Ceiling(decimal.Divide(dataCount, pageSize));
+            ViewData["TotalPages"] = totpgs;
             ViewData["CurrentPage"] = page;
 
             loadDataModel.ECRDataModelList = ecrData;
             loadDataModel.IsLoading = IsLoading;
-            loadDataModel.Count = ecrData.Count();
+            loadDataModel.Count = ecrData.Count;
             
+            return View(loadDataModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AwaitingStatusData(int page = 1, int pageSize = 50)
+        {
+            var dataCount = await _pencomService.GetAwaitingStatusCount();
+            ecrData = await _pencomService.GetAwaitingStatusData(page, pageSize);
+            var totpgs = (int)Math.Ceiling(decimal.Divide(dataCount, pageSize));
+            ViewData["TotalPages"] = totpgs;
+            ViewData["CurrentPage"] = page;
+
+            loadDataModel.ECRDataModelList = ecrData;
+            loadDataModel.IsLoading = IsLoading;
+            loadDataModel.Count = ecrData.Count;
+
             return View(loadDataModel);
         }
 
@@ -110,6 +157,7 @@ namespace PENCOMSERVICE.Controllers
             ecrData = await _pencomService.GetAcceptedData(page, pageSize);
             ViewData["TotalPages"] = (int)Math.Ceiling(decimal.Divide(dataCount, pageSize));
             ViewData["CurrentPage"] = page;
+            ViewData["TotalNumberOfData"] = dataCount;
 
             loadDataModel.ECRDataModelList = ecrData;
             loadDataModel.IsLoading = IsLoading;
