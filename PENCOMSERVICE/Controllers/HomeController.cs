@@ -95,7 +95,7 @@ namespace PENCOMSERVICE.Controllers
                 result = await _pencomService.SubmitData(data);
             }
             // Create SubmitData ViewModel and pass all the needed fields to it
-            return RedirectToAction(nameof(SubmittedData)).WithSuccess($"Successfully submitted {result.Counter} users data to ECR database for Recapture Processing","");
+            return RedirectToAction(nameof(AwaitingStatusData)).WithSuccess($"Successfully submitted {result.Counter} users data to ECR database for Recapture Processing","");
         }
 
 
@@ -108,10 +108,22 @@ namespace PENCOMSERVICE.Controllers
 
             foreach (var data in ecrData)
             {
+                var pfa_data = _pfaContext.EmployeesRecapture.Where(p => p.Pin == data.Pin).FirstOrDefault();
                 statusResponse = _pencomService.GetRequestStatus(data.SubmitCode);
+                if (String.IsNullOrEmpty(statusResponse))
+                {
+                    pfa_data.SubmitResponse = "";
+                }
+
+                result.Counter++;
+
+                pfa_data.SubmitResponse = statusResponse;
+
+                _pfaContext.EmployeesRecapture.Update(pfa_data);
+                await _pfaContext.SaveChangesAsync();
             }
             // Create SubmitData ViewModel and pass all the needed fields to it
-            return RedirectToAction(nameof(SubmittedData)).WithSuccess($"Successfully submitted {result.Counter} users data to ECR database for Recapture Processing", "");
+            return RedirectToAction(nameof(SubmittedData)).WithSuccess($"Successfully requested status for {result.Counter} from Pencom Service", "");
         }
 
         public IActionResult Privacy()
@@ -137,8 +149,8 @@ namespace PENCOMSERVICE.Controllers
             //loadDataModel.ECRDataModelList = ecrData;
             //loadDataModel.IsLoading = IsLoading;
             //loadDataModel.Count = ecrData.Count;
-            
-            return View(model).WithSuccess($"Successfully fetched {pageSize} submitted users data from ECR database", "");
+
+            return View(model);
         }
 
         [HttpGet]
