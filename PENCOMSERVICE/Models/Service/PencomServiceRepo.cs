@@ -235,6 +235,8 @@ namespace PENCOMSERVICE.Models.Service
 
             //removed "<maidenOrFormerName>" + maidenName + "</maidenOrFormerName>" + from xml
 
+            var dateOfFirstAppointment = model.DateOfFirstApppoinment.GetValueOrDefault().ToString("yyyy-MM-dd");
+
             var payload = @"<?xml version=""1.0"" encoding=""utf-8""?><soapenv:Envelope xmlns:soapenv=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:ws=""http://ws.services.model.ecrs.pencom.gov.ng/""><soapenv:Header/>
 <soapenv:Body>
             <ws:recaptureRequest><UserId>" + username + "</UserId>" + "<Password>" + password + "</Password>" +
@@ -289,7 +291,7 @@ namespace PENCOMSERVICE.Models.Service
                     "<poBox>" + employerPoBox + "</poBox>" +
                     "<phoneNumber>" + employerPhone + "</phoneNumber>" +
                     "<natureOfBusiness>" + model.EmployerBusiness + "</natureOfBusiness>" +
-                    "<dateOfFirstAppointment>" + model.DateOfFirstApppoinment + "</dateOfFirstAppointment>" +
+                    "<dateOfFirstAppointment>" + dateOfFirstAppointment + "</dateOfFirstAppointment>" +
                     "<dateOfCurrentEmployment>" + model.DateEmployed + "</dateOfCurrentEmployment>" +
                 "</employmentRecord>" +
                 "<nextOfKinDetail>" +
@@ -347,44 +349,13 @@ namespace PENCOMSERVICE.Models.Service
                 responseXML = responseXML.Replace("</responseMessage>", "");
                 var responseArr = responseXML.Split("_");
 
-                //var xDoc = XDocument.Parse(xmlOutput);
-                //var setId = xDoc.Root.Element("setId");
-                //var setIdValue = setId.Value;
                 var setId = responseArr[1].ToString();
                 var responseMessage = responseArr[3];
                 emp.IsSubmitted = setId is null || setId == "" || string.IsNullOrEmpty(setId) ? emp.IsSubmitted = false : emp.IsSubmitted = true;
+                emp.Approved = setId is null || setId == "" || string.IsNullOrEmpty(setId) ? !emp.Approved : emp.Approved;
                 emp.SubmitResponse = String.IsNullOrEmpty(setId) ? emp.SubmitResponse = responseMessage : emp.SubmitResponse = "";
 
                 emp.SubmitCode = setId;
-
-                //try
-                //{
-                //    //Thread.Sleep(30000);
-                //    string submissionStatus = "";
-                //    if (setId is null || setId == "" || string.IsNullOrEmpty(setId))
-                //    {
-                //        jResult.Counter = jResult.Counter == 0 ? 0 : jResult.Counter--;
-                //        _pfaContext.EmployeesRecapture.Update(emp);
-                //        await _pfaContext.SaveChangesAsync();
-                //        return jResult;
-                //    }
-
-                //    submissionStatus = GetRequestStatus(setId);
-
-                //    if (submissionStatus.ToUpper() == "ACCEPTED")
-                //    {
-                //        emp.SubmitResponse = submissionStatus;
-                //        jResult.responsemessage = submissionStatus;
-                //    }
-                //    else
-                //    {
-                //        emp.SubmitResponse = submissionStatus;
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    return new PencomResponse { responsecode = "", responsemessage = ex.Message };
-                //}
 
                 jResult.Counter++;
                 _pfaContext.EmployeesRecapture.Update(emp);
